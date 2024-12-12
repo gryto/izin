@@ -1,4 +1,3 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -234,9 +233,6 @@ class _AktivitasIzinState extends State<AktivitasIzin> {
                                       ),
                                     );
                                   } else {
-                                    // donlod pdf
-                                    // print("izin Id");
-                                    // print(izin.id);
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => DownloadPage(
@@ -256,15 +252,9 @@ class _AktivitasIzinState extends State<AktivitasIzin> {
                                         children: [
                                           Icon(
                                             Icons.remove_red_eye,
-                                            // color: Color.fromARGB(
-                                            //     255, 67, 128, 252),
                                           ),
                                           Text(
                                             ' Detail',
-                                            // style: TextStyle(
-                                            //   color: Color.fromARGB(
-                                            //       255, 67, 128, 252),
-                                            // ),
                                           ),
                                         ],
                                       ),
@@ -275,15 +265,9 @@ class _AktivitasIzinState extends State<AktivitasIzin> {
                                         children: [
                                           Icon(
                                             Icons.picture_as_pdf,
-                                            // color: Color.fromARGB(
-                                            //     255, 100, 41, 229),
                                           ),
                                           Text(
                                             ' PDF',
-                                            // style: TextStyle(
-                                            //   color: Color.fromARGB(
-                                            //       255, 100, 41, 229),
-                                            // ),
                                           ),
                                         ],
                                       ),

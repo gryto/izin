@@ -82,20 +82,16 @@ class _DetailSubmissionState extends State<DetailSubmission> {
 
     // Set the title based on the actionMode
     String title = '';
-    bool isEditable = false;
 
     switch (widget.actionMode) {
       case ActionMode.add:
         title = 'Tambah Pengajuan Izin';
-        isEditable = true;
         break;
       case ActionMode.edit:
         title = 'Edit Pengajuan Izin';
-        isEditable = true;
         break;
       case ActionMode.view:
         title = 'Detail Pengajuan Izin';
-        isEditable = false;
         break;
     }
 

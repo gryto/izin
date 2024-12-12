@@ -1,6 +1,5 @@
 import 'package:bounce/bounce.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:badges/badges.dart' as badges;
 
 import '../../utils/constants/colors.dart';
@@ -47,7 +46,7 @@ class UserCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title! ?? "",
+                    title!,
                     style: TextStyle(
                       color: colorTitle,
                       fontSize: 18,
@@ -55,7 +54,7 @@ class UserCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    reason! ?? "",
+                    reason!,
                     style: TextStyle(
                       color: colorTitle,
                       fontSize: 18,

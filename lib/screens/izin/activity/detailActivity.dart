@@ -64,20 +64,16 @@ class _DetailActivityState extends State<DetailActivity> {
   Widget build(BuildContext context) {
     // Set the title based on the actionMode
     String title = '';
-    bool isEditable = false;
 
     switch (widget.actionMode) {
       case ActionMode.add:
         title = 'Tambah Pengajuan Izin';
-        isEditable = true;
         break;
       case ActionMode.edit:
         title = 'Edit Pengajuan Izin';
-        isEditable = true;
         break;
       case ActionMode.view:
         title = 'Detail Pengajuan Izin';
-        isEditable = false;
         break;
     }
 
@@ -139,20 +135,13 @@ class _DetailActivityState extends State<DetailActivity> {
             widget.status == "Pending") {
           izinCubit.state.ctrlName.text = widget.name;
 
-          // izinCubit.state.ctrlStartDate.text = convertDateFormat(widget.startDate);
-          // izinCubit.state.ctrlEndDate.text = convertDateFormat(widget.endDate);
-          // izinCubit.state.ctrlStartTime.text = widget.startTime;
-
           if (state.ctrlStartDate.text.isEmpty &&
               state.ctrlEndDate.text.isEmpty) {
-            // final currentDate =
-            //     DateFormat('dd/MM/yyyy').format(DateTime.now());
             state.ctrlStartDate.text = convertDateFormat(widget.startDate);
             ;
             state.ctrlEndDate.text = convertDateFormat(widget.endDate);
           }
           if (state.ctrlStartTime.text.isEmpty) {
-            // final currentTime = DateFormat('HH:mm').format(DateTime.now());
             state.ctrlStartTime.text = widget.startTime;
           }
 

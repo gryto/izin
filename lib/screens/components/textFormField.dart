@@ -1,9 +1,4 @@
-import 'package:bounce/bounce.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
-import 'package:badges/badges.dart' as badges;
-
 import '../../utils/constants/constantStyle.dart';
 
 class TextFormFoeldActivity extends StatelessWidget {
@@ -42,7 +37,7 @@ class TextFormFoeldActivity extends StatelessWidget {
                 controller: controller,
                 // key: _formKey,
                 decoration: 
-                ConstantStyle.inputDecorationDefault( title!),
+                ConstantStyle.inputDecorationDefault( title),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
                   if (value == null || value.isEmpty) {

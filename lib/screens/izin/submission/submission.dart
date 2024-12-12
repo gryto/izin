@@ -1,12 +1,9 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-
 import '../../../bloc/izin/izin_cubit.dart';
 import '../../../bloc/izin/izin_state.dart';
-import '../../../router/app_routes.dart';
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/constantStyle.dart';
 import '../../components/activity_card.dart';
@@ -82,7 +79,7 @@ class _SubmissionPageState extends State<SubmissionPage> {
                         itemBuilder: (context, index,) {
                           final izin = state.submissionAll[index];
                           // final user = state.userIzinList[index];
-                           String roleDisplay = state.userRole ?? 'Unknown'; // Role yang digunakan
+                           String roleDisplay = state.userRole; // Role yang digunakan
                            print("roledisplay");
                            print(roleDisplay);
 
@@ -196,9 +193,6 @@ class _SubmissionPageState extends State<SubmissionPage> {
                                       ),
                                     );
                                   } else {
-                                    // donlod pdf
-                                    // print("izin Id");
-                                    // print(izin.id);
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => DownloadPage(

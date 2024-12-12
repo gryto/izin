@@ -1,10 +1,8 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import '../../../bloc/izin/izin_cubit.dart';
 import '../../../bloc/izin/izin_state.dart';
-import '../../../router/app_routes.dart';
 import '../../../utils/constants/colors.dart';
 import '../../components/user_card.dart';
 import 'addUser.dart';
@@ -39,9 +37,6 @@ class _UserIzinPageState extends State<UserIzinPage> {
   List listData = [];
 
   final fieldKeyword = TextEditingController();
-  final List<FocusNode> _focusNodes = [
-    FocusNode(),
-  ];
 
   @override
   Widget build(BuildContext context) {
