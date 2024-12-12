@@ -36,7 +36,6 @@ class IzinCubit extends Cubit<IzinState> {
       // cShowDialog(
       //     context: context, title: "Warning", message: 'Under Maintenance');
     }
-    print(title);
   }
 
   Future<void> initData(BuildContext context) async {
@@ -44,7 +43,6 @@ class IzinCubit extends Cubit<IzinState> {
     try {
       String? user = await Helper().getDataUser();
       String? token = await Helper().getToken();
-      print(user);
 
       if (user != null && token != null) {
         emit(state.copyWith(user: User.fromJson(jsonDecode(user))));
@@ -62,8 +60,6 @@ class IzinCubit extends Cubit<IzinState> {
               dashboardIzin: DashboardIzinAll.fromJson(result['data']),
             ),
           );
-
-          print(state.dashboardIzin);
         } else {
           cShowDialog(
               context: context, title: "Warning", message: result['success']);
@@ -82,16 +78,13 @@ class IzinCubit extends Cubit<IzinState> {
 
   //   try {
   //     String? user = await Helper().getDataUser();
-  //     print("listmenuid");
-  //     print(user);
 
   //     if (user != null) {
   //       // Decode the user information and extract the userId
   //       var decodedUser = jsonDecode(user);
   //       String role =
   //           decodedUser['role']; // Assuming 'id' is part of the user model
-  //       print("Userid");
-  //       print(role);
+
 
   //       List<MenuIzin> menuItems = [
   //         MenuIzin(
@@ -232,7 +225,6 @@ class IzinCubit extends Cubit<IzinState> {
     try {
       String? user = await Helper().getDataUser();
       String? token = await Helper().getToken();
-      print(user);
 
       if (user != null && token != null) {
         emit(state.copyWith(user: User.fromJson(jsonDecode(user))));
@@ -243,16 +235,12 @@ class IzinCubit extends Cubit<IzinState> {
             token: token,
             method: 'get');
         var result = json.decode(response!.body);
-        print(result);
-        print("${PathUrl.izinAll}${state.user.username}/semua");
-        print(response.statusCode);
 
         if (response.statusCode == 200) {
           var izinData = (result['data'] as List)
               .map((item) => IzinAll.fromJson(item))
               .toList()
               .cast<IzinAll>();
-          print("Parsed izinAll: $izinData");
 
           if (state.selectedValue == 'Semua' || state.selectedValue == "") {
             emit(state.copyWith(isLoading: false, izinAll: izinData));
@@ -281,7 +269,6 @@ class IzinCubit extends Cubit<IzinState> {
     try {
       String? user = await Helper().getDataUser();
       String? token = await Helper().getToken();
-      print(user);
 
       if (user != null && token != null) {
         emit(state.copyWith(user: User.fromJson(jsonDecode(user))));
@@ -292,17 +279,12 @@ class IzinCubit extends Cubit<IzinState> {
             token: token,
             method: 'get');
         var result = json.decode(response!.body);
-        print("pathuser");
-        print("${PathUrl.user}${state.user.id}");
         if (response.statusCode == 200) {
-          // DashboardIzinAll.fromJson(result['data']);
           emit(
             state.copyWith(
               userIzin: User.fromJson(result['data']),
             ),
           );
-          print("uyserizin");
-          print(state.userIzin);
         } else {
           cShowDialog(
               context: context, title: "Warning", message: result['success']);
@@ -353,13 +335,9 @@ class IzinCubit extends Cubit<IzinState> {
       "deskripsi": description,
       "username": username,
     };
-    print("body");
-    print(body);
-
     try {
       String? user = await Helper().getDataUser();
       String? token = await Helper().getToken();
-      print(user);
 
       if (user != null && token != null) {
         emit(state.copyWith(user: User.fromJson(jsonDecode(user))));
@@ -370,15 +348,7 @@ class IzinCubit extends Cubit<IzinState> {
             token: token,
             method: 'post');
         var result = json.decode(response!.body);
-        print("pathuseradd");
-        print(PathUrl.addIzin);
-        print("resukt");
-        print(result);
-        print(response.statusCode);
-        print(result);
         if (response.statusCode == 200 && result['success'] == true) {
-          // emit(state.copyWith(isUpdateSuccess: true));
-          // emit(state.copyWith(isUpdateSuccess: false));
           emit(state.copyWith(
               message: 'Create Izin Berhasil',
               titleMessage: 'Success',
@@ -388,8 +358,6 @@ class IzinCubit extends Cubit<IzinState> {
           await initIzinData(
               context); // Call initIzinData to update izinAll data
         } else {
-          // emit(state.copyWith(errorMessage: "Gagal Update Data"));
-          // emit(state.copyWith(errorMessage: ""));
           emit(state.copyWith(
               message: 'Gagal Create Izin',
               titleMessage: 'Failed',
@@ -398,8 +366,6 @@ class IzinCubit extends Cubit<IzinState> {
         }
       }
     } catch (e) {
-      // emit(state.copyWith(
-      //     isLoading: false, errorMessage: 'Failed to load data'));
       emit(state.copyWith(
           message: e.toString(), titleMessage: 'Failed', typeMessage: 'error'));
       emit(state.copyWith(message: '', titleMessage: '', typeMessage: ''));
@@ -411,7 +377,6 @@ class IzinCubit extends Cubit<IzinState> {
     try {
       String? user = await Helper().getDataUser();
       String? token = await Helper().getToken();
-      print(user);
 
       if (user != null && token != null) {
         emit(state.copyWith(user: User.fromJson(jsonDecode(user))));
@@ -422,9 +387,7 @@ class IzinCubit extends Cubit<IzinState> {
             token: token,
             method: 'get');
         var result = json.decode(response!.body);
-        print("${PathUrl.izinAll}${state.user.username}/semua");
         if (response.statusCode == 200) {
-          print('Data refresh successful');
           await initIzinData(
               context); // Call initIzinData to update izinAll data
 
@@ -453,7 +416,6 @@ class IzinCubit extends Cubit<IzinState> {
     try {
       String? user = await Helper().getDataUser();
       String? token = await Helper().getToken();
-      print(user);
 
       if (user != null && token != null) {
         emit(state.copyWith(user: User.fromJson(jsonDecode(user))));
@@ -465,10 +427,7 @@ class IzinCubit extends Cubit<IzinState> {
             method: 'get');
         var result = json.decode(response!.body);
 
-        print(PathUrl.submissionAll);
-
         if (response.statusCode == 200) {
-          print('Data refresh successful');
           await initSubmissionData(
               context); // Call initIzinData to update izinAll data
 
@@ -518,13 +477,10 @@ class IzinCubit extends Cubit<IzinState> {
       "username": username,
       "status": "cancel",
     };
-    print("bodycancel");
-    print(body);
 
     try {
       String? user = await Helper().getDataUser();
       String? token = await Helper().getToken();
-      print(user);
 
       if (user != null && token != null) {
         emit(state.copyWith(user: User.fromJson(jsonDecode(user))));
@@ -535,12 +491,6 @@ class IzinCubit extends Cubit<IzinState> {
             token: token,
             method: 'post');
         var result = json.decode(response!.body);
-        print("pathusercancel");
-        print(PathUrl.addIzin);
-        print("result");
-        print(result);
-        print(response.statusCode);
-        print(result);
 
         if (response.statusCode == 200 && result['success'] == true) {
           emit(state.copyWith(
@@ -600,13 +550,10 @@ class IzinCubit extends Cubit<IzinState> {
       "username": username,
       "status": "update",
     };
-    print("bodycancel");
-    print(body);
 
     try {
       String? user = await Helper().getDataUser();
       String? token = await Helper().getToken();
-      print(user);
 
       if (user != null && token != null) {
         emit(state.copyWith(user: User.fromJson(jsonDecode(user))));
@@ -617,12 +564,6 @@ class IzinCubit extends Cubit<IzinState> {
             token: token,
             method: 'post');
         var result = json.decode(response!.body);
-        print("pathuserupdate");
-        print(PathUrl.addIzin);
-        print("result");
-        print(result);
-        print(response.statusCode);
-        print(result);
 
         if (response.statusCode == 200 && result['success'] == true) {
           emit(state.copyWith(
@@ -739,14 +680,9 @@ class IzinCubit extends Cubit<IzinState> {
   }
 
   Future<String?> getUserRole() async {
-    // final String? userData = prefs.getString('user');
     String? user = await Helper().getDataUser();
-    // if (user != null) {
       final Map<String, dynamic> userMap = jsonDecode(user!);
       emit(state.copyWith(userRole: userMap['role']));
-      // userRole = userMap['role']; // Ambil nilai role
-    // }
-    // return null;
   }
 
   Future<void> initSubmissionData(BuildContext context) async {
@@ -754,8 +690,6 @@ class IzinCubit extends Cubit<IzinState> {
     try {
       String? user = await Helper().getDataUser();
       String? token = await Helper().getToken();
-      print("usetdata");
-      print(user);
 
       if (user != null && token != null) {
         emit(state.copyWith(user: User.fromJson(jsonDecode(user))));
@@ -767,17 +701,11 @@ class IzinCubit extends Cubit<IzinState> {
             method: 'get');
         var result = json.decode(response!.body);
 
-        print("submission");
-        print(result);
-        print(PathUrl.submissionAll);
-        print(response.statusCode);
-
         if (response.statusCode == 200) {
           var submissionData = (result['data'] as List)
               .map((item) => SubmissionAll.fromJson(item))
               .toList()
               .cast<SubmissionAll>();
-          print("Parsed izinAll: $submissionData");
 
           if (state.selectedValue == 'Semua' || state.selectedValue == "") {
             emit(state.copyWith(
@@ -825,15 +753,10 @@ class IzinCubit extends Cubit<IzinState> {
       "username": username,
       "status": "approve",
     };
-    print("bodyupdatesubmission");
-    print(body);
 
     try {
-      print("sblm try");
       String? user = await Helper().getDataUser();
       String? token = await Helper().getToken();
-      print(user);
-      print("ssudahtry");
 
       if (user != null && token != null) {
         emit(state.copyWith(user: User.fromJson(jsonDecode(user))));
@@ -845,12 +768,6 @@ class IzinCubit extends Cubit<IzinState> {
             method: 'post');
 
         var result = json.decode(response!.body);
-        print("path submissionupdate");
-        print(PathUrl.updateSubmission);
-        print("result");
-        print(result);
-        print(response.statusCode);
-        print(result);
 
         if (response.statusCode == 200 && result['success'] == true) {
           emit(state.copyWith(isUpdateSuccess: true));
@@ -871,7 +788,6 @@ class IzinCubit extends Cubit<IzinState> {
     try {
       String? user = await Helper().getDataUser();
       String? token = await Helper().getToken();
-      print(user);
 
       if (user != null && token != null) {
         emit(state.copyWith(user: User.fromJson(jsonDecode(user))));
@@ -883,20 +799,13 @@ class IzinCubit extends Cubit<IzinState> {
             method: 'get');
         var result = json.decode(response!.body);
 
-        print("userizinlist");
-        print(result);
-        print(PathUrl.user);
-        print(response.statusCode);
-
         if (response.statusCode == 200) {
           var userList = (result['data'] as List)
               .map((item) => User.fromJson(item))
               .toList()
               .cast<User>();
-          print("Parsed izinAll: $userList");
           var userNameList = userList.map((user) => user.name ?? '').toList();
 
-          print(userNameList);
 
           if (state.selectedValue == 'Semua' || state.selectedValue == "") {
             emit(state.copyWith(
@@ -919,10 +828,6 @@ class IzinCubit extends Cubit<IzinState> {
               ),
             );
           }
-
-          print("listusernama");
-
-          print(state.listUser);
         } else {
           cShowDialog(
               context: context, title: "Warning", message: result['success']);
@@ -956,7 +861,6 @@ class IzinCubit extends Cubit<IzinState> {
     try {
       String? user = await Helper().getDataUser();
       String? token = await Helper().getToken();
-      print(user);
 
       if (user != null && token != null) {
         emit(state.copyWith(user: User.fromJson(jsonDecode(user))));
@@ -966,11 +870,7 @@ class IzinCubit extends Cubit<IzinState> {
             body: null,
             token: token,
             method: 'get');
-        print("generatedata");
-        print("${PathUrl.reportAll}$start_date/$end_date/$username");
         var result = json.decode(response!.body);
-        print(result);
-        print(response.statusCode);
         if (response.statusCode == 200) {
           // DashboardIzinAll.fromJson(result['data']);
           emit(
@@ -978,8 +878,6 @@ class IzinCubit extends Cubit<IzinState> {
               report: Report.fromJson(result['data']),
             ),
           );
-
-          print(state.report);
         } else {
           cShowDialog(
               context: context, title: "Warning", message: result['success']);
@@ -1025,13 +923,10 @@ class IzinCubit extends Cubit<IzinState> {
     Map body = {
       "data": arrayId,
     };
-    print("bodycancel");
-    print(body);
 
     try {
       String? user = await Helper().getDataUser();
       String? token = await Helper().getToken();
-      print(user);
 
       if (user != null && token != null) {
         emit(state.copyWith(user: User.fromJson(jsonDecode(user))));
@@ -1042,12 +937,6 @@ class IzinCubit extends Cubit<IzinState> {
             token: token,
             method: 'post');
         var result = json.decode(response!.body);
-        print("addUser");
-        print(PathUrl.addIzin);
-        print("result");
-        print(result);
-        print(response.statusCode);
-        print(result);
 
         if (response.statusCode == 200 && result['success'] == true) {
           emit(state.copyWith(isUpdateSuccess: true));
@@ -1069,9 +958,6 @@ class IzinCubit extends Cubit<IzinState> {
 
   void toggleSelection(int id) {
     final updatedIds = List<int>.from(state.selectedIds);
-
-    print("list semua id yg dipilih");
-    print(updatedIds);
 
     if (updatedIds.contains(id)) {
       updatedIds.remove(id); // Hapus jika sudah ada
@@ -1100,7 +986,6 @@ class IzinCubit extends Cubit<IzinState> {
     try {
       String? user = await Helper().getDataUser();
       String? token = await Helper().getToken();
-      print(user);
 
       if (user != null && token != null) {
         emit(state.copyWith(user: User.fromJson(jsonDecode(user))));
@@ -1112,7 +997,6 @@ class IzinCubit extends Cubit<IzinState> {
             method: 'get');
         var result = json.decode(response!.body);
         if (response.statusCode == 200) {
-          print('Data refresh successful');
           await initUsetIzinData(
               context); // Call initIzinData to update izinAll data
         } else {
