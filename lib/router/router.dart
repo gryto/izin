@@ -1,13 +1,16 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hma2/screens/izin/report/report.dart';
 
+import '../model/izinAll.dart';
 import '../model/submissionAll.dart';
+import '../model/user.dart';
 import '../screens/dar/dar_screen.dart';
+import '../screens/izin/activity/detailActivitySecond.dart';
 import '../screens/izin/izin_screen.dart';
 import '../screens/izin/submission/detailSubmission.dart';
+import '../screens/izin/submission/detailSubmissionRow.dart';
 import '../screens/izin/user/user.dart';
 import '../screens/login_screen.dart';
 import '../screens/mainpage_screen.dart';
@@ -32,47 +35,56 @@ GoRouter router(String initialLocation) {
                   builder: (context, state) => const DarScreen(),
                 ),
                 GoRoute(
-                    path: Routes.IZIN,
-                    builder: (context, state) => const IzinScreen(),
-                    routes: [
-                      GoRoute(
-                        path: Routes.ADDEDIZIN,
-                        builder: (context, state) {
-                          String detailIzinString = jsonEncode(state.extra);
-                          SubmissionAll detailIzin = SubmissionAll.fromJson(
-                              jsonDecode(detailIzinString));
-                          print('ini dari router');
-                          print(detailIzin.id);
-                          final id = state.pathParameters['id'];
-                          final name = state.pathParameters['username'];
-                          final startDate = state.pathParameters['startDate'];
-                          final endDate = state.pathParameters['endDate'];
-                          final startTime = state.pathParameters['startTime'];
-                          final endTime = state.pathParameters['endTime'];
-                          final reason = state.pathParameters['reason'];
-                          final description =
-                              state.pathParameters['description'];
-                          final read = state.pathParameters['readByAdmin'];
-                          final readSuperadmin =
-                              state.pathParameters['readBySuperadmin'];
-                          print(reason);
-                          return DetailSubmission(
-                              status: "Pending",
-                              actionMode: ActionMode.view,
-                              id: id,
-                              name: name,
-                              startDate: startDate,
-                              endDate: endDate,
-                              startTime: startTime,
-                              endTime: endTime,
-                              reason: reason,
-                              description: description,
-                              read: read.toString(),
-                              readSuperadmin: readSuperadmin.toString(),
-                              role: "1");
-                        },
-                      ),
-                    ]),
+                  path: Routes.IZIN,
+                  builder: (context, state) => const IzinScreen(),
+                  routes: [
+                    GoRoute(
+                      path: "${Routes.SUBMISSIONIZIN}/:type",
+                      builder: (context, state) {
+                        String detailSubmissionIzinString = jsonEncode(state.extra);
+                        SubmissionAll detailIzin = SubmissionAll.fromJson(
+                            jsonDecode(detailSubmissionIzinString));
+                        print('ini dari router');
+                        print(detailIzin.id);
+
+                        String detailUserString = jsonEncode(state.extra);
+                        User detailUser =
+                            User.fromJson(jsonDecode(detailUserString));
+                        print('ini dari router user');
+                        print(detailUser.username);
+                        final type = state.pathParameters['type'];
+                        return DetailSubmissionRow(
+                          type: type!,
+                          izin: detailIzin,
+                          user: detailUser,
+                        );
+                      },
+                    ),
+                    GoRoute(
+                      path: "${Routes.ADDEDIZIN}/:type",
+                      builder: (context, state) {
+                        String detailIzinString = jsonEncode(state.extra);
+                        IzinAll detailIzin = IzinAll.fromJson(
+                            jsonDecode(detailIzinString));
+                        print('ini dari router');
+                        print(detailIzin.id);
+
+                        String detailUserString = jsonEncode(state.extra);
+                        User detailUser =
+                            User.fromJson(jsonDecode(detailUserString));
+                        print('ini dari router user');
+                        print(detailUser.username);
+                        final type = state.pathParameters['type'];
+                        return DetailActivityPage(
+                          type: type!,
+                          izin: detailIzin, 
+                          // actionMode: ActionMode.view,
+                          // user: detailUser,
+                        );
+                      },
+                    ),
+                  ],
+                ),
                 // GoRoute(
                 //   path: Routes.IZIN_USER,
                 //   builder: (context, state) => const UserIzinPage(),

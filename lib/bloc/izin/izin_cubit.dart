@@ -38,6 +38,28 @@ class IzinCubit extends Cubit<IzinState> {
     }
   }
 
+  void parsingData(SubmissionAll izin, User user) {
+    String convertDateFormat(String? date) {
+      DateTime parsedDate = DateFormat('yyyy-MM-dd').parse(date!);
+      String formattedDate = DateFormat('dd/MM/yyyy').format(parsedDate);
+      return formattedDate;
+    }
+
+    print("userparsingdata");
+
+    print(user);
+
+    state.ctrlName.text = izin.users!.name ?? '';
+    state.ctrlDivision.text = "IT";
+    state.ctrlEndDate.text = convertDateFormat(izin.endDate);
+    state.ctrlStartDate.text = convertDateFormat(izin.startDate);
+    state.ctrlEndTime.text = "Selesai";
+    state.ctrlStartTime.text = izin.startTime ?? "";
+    state.ctrlEndTime.text = izin.endTime ?? "";
+    state.ctrlReason.text = izin.reason ?? "";
+    state.ctrlDescription.text = izin.description ?? "";
+  }
+
   Future<void> initData(BuildContext context) async {
     emit(state.copyWith(isLoading: true));
     try {
@@ -84,7 +106,6 @@ class IzinCubit extends Cubit<IzinState> {
   //       var decodedUser = jsonDecode(user);
   //       String role =
   //           decodedUser['role']; // Assuming 'id' is part of the user model
-
 
   //       List<MenuIzin> menuItems = [
   //         MenuIzin(
@@ -571,7 +592,7 @@ class IzinCubit extends Cubit<IzinState> {
               titleMessage: 'Success',
               typeMessage: 'success'));
           emit(state.copyWith(message: '', titleMessage: '', typeMessage: ''));
-          resetForm();
+          // resetForm();
           await initIzinData(
               context); // Call initIzinData to update izinAll data
         } else {
@@ -681,8 +702,8 @@ class IzinCubit extends Cubit<IzinState> {
 
   Future<String?> getUserRole() async {
     String? user = await Helper().getDataUser();
-      final Map<String, dynamic> userMap = jsonDecode(user!);
-      emit(state.copyWith(userRole: userMap['role']));
+    final Map<String, dynamic> userMap = jsonDecode(user!);
+    emit(state.copyWith(userRole: userMap['role']));
   }
 
   Future<void> initSubmissionData(BuildContext context) async {
@@ -731,25 +752,17 @@ class IzinCubit extends Cubit<IzinState> {
   }
 
   Future<void> initUpdateSubmissionData(
-      BuildContext context,
-      String id,
-      String starDate,
-      String endDate,
-      startTime,
-      endTime,
-      reason,
-      description,
-      username) async {
+      BuildContext context, SubmissionAll izin, String? username) async {
     emit(state.copyWith(isLoading: true));
 
     Map body = {
-      "id": id,
-      "start_date": starDate,
-      "end_date": endDate,
-      "start_time": startTime,
-      "end_time": endTime,
-      "alasan": reason,
-      "deskripsi": description,
+      "id": izin.id.toString(),
+      "start_date": state.ctrlStartDate.text,
+      "end_date": state.ctrlEndDate.text,
+      "start_time": state.ctrlStartTime.text,
+      "end_time": state.ctrlEndTime.text,
+      "alasan": state.ctrlReason.text,
+      "deskripsi": state.ctrlDescription.text,
       "username": username,
       "status": "approve",
     };
@@ -770,11 +783,22 @@ class IzinCubit extends Cubit<IzinState> {
         var result = json.decode(response!.body);
 
         if (response.statusCode == 200 && result['success'] == true) {
-          emit(state.copyWith(isUpdateSuccess: true));
-          emit(state.copyWith(isUpdateSuccess: false));
+          emit(state.copyWith(
+              message: 'Approve Pengajuan Izin Berhasil',
+              titleMessage: 'Success',
+              typeMessage: 'success'));
+          emit(state.copyWith(message: '', titleMessage: '', typeMessage: ''));
+          // resetForm();
+          await initSubmissionData(
+              context); // Call initIzinData to update izinAll data
         } else {
-          emit(state.copyWith(errorMessage: "Gagal Update Data"));
-          emit(state.copyWith(errorMessage: ""));
+          // emit(state.copyWith(errorMessage: "Gagal Update Data"));
+          // emit(state.copyWith(errorMessage: ""));
+          emit(state.copyWith(
+              message: 'Gagal Approve Pengajuan Izint',
+              titleMessage: 'Failed',
+              typeMessage: 'error'));
+          emit(state.copyWith(message: '', titleMessage: '', typeMessage: ''));
         }
       }
     } catch (e) {
@@ -805,7 +829,6 @@ class IzinCubit extends Cubit<IzinState> {
               .toList()
               .cast<User>();
           var userNameList = userList.map((user) => user.name ?? '').toList();
-
 
           if (state.selectedValue == 'Semua' || state.selectedValue == "") {
             emit(state.copyWith(
@@ -1012,4 +1035,57 @@ class IzinCubit extends Cubit<IzinState> {
           isLoading: false, errorMessage: 'Failed to load data'));
     }
   }
+
+  /// Fungsi untuk memproses izin dan menghasilkan status serta subtitle
+  // Map<String, String> processIzinStatus(SubmissionAll izin) {
+  //   var statusPending = (izin.status == "1" &&
+  //       izin.statusAdmin == "1" &&
+  //       izin.statusSuperadmin == "1");
+  //   var statusSuperAdmin = (izin.status == "1" &&
+  //       izin.statusAdmin == "1" &&
+  //       izin.statusSuperadmin == "2");
+  //   var statusAdmin = (izin.status == "1" &&
+  //       izin.statusAdmin == "2" &&
+  //       izin.statusSuperadmin == "1");
+  //   var statusDone = (izin.status == "2" &&
+  //       izin.statusAdmin == "2" &&
+  //       izin.statusSuperadmin == "2");
+  //   var statusCanceled = (izin.status == "3" &&
+  //       izin.statusAdmin == "2" &&
+  //       izin.statusSuperadmin == "2");
+
+  //   // Tentukan status
+  //   String status = statusPending
+  //       ? "Pending"
+  //       : statusSuperAdmin
+  //           ? "Approved"
+  //           : statusAdmin
+  //               ? "Approved"
+  //               : statusDone
+  //                   ? "Approved"
+  //                   : "Canceled";
+
+  //   // Tentukan subtitle
+  //   String subtitle = statusPending
+  //       ? "Pending"
+  //       : statusSuperAdmin
+  //           ? "Checked by SuperAdmin"
+  //           : statusAdmin
+  //               ? "Wait Superadmin"
+  //               : statusDone
+  //                   ? "Done"
+  //                   : "Canceled";
+
+  //   return {
+  //     "status": status,
+  //     "subtitle": subtitle,
+  //   };
+  // }
+
+  // /// Fungsi untuk memformat tanggal
+  // String convertDateFormat(String? date) {
+  //   if (date == null) return "";
+  //   DateTime parsedDate = DateFormat('yyyy-MM-dd').parse(date);
+  //   return DateFormat('dd/MM/yyyy').format(parsedDate);
+  // }
 }

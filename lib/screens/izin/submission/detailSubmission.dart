@@ -497,16 +497,16 @@ class _DetailSubmissionState extends State<DetailSubmission> {
                                           onPressed: () {
                                             print("inisblmaproove");
 
-                                            izinCubit.initUpdateSubmissionData(
-                                                context,
-                                                widget.id,
-                                                widget.startDate,
-                                                widget.endDate,
-                                                widget.startTime,
-                                                widget.endTime,
-                                                widget.reason,
-                                                widget.description,
-                                                state.userIzin.username);
+                                            // izinCubit.initUpdateSubmissionData(
+                                            //     context,
+                                            //     widget.id,
+                                            //     widget.startDate,
+                                            //     widget.endDate,
+                                            //     widget.startTime,
+                                            //     widget.endTime,
+                                            //     widget.reason,
+                                            //     widget.description,
+                                            //     state.userIzin.username);
                                           },
                                         ),
                                       )
