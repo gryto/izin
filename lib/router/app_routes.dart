@@ -7,6 +7,7 @@ abstract class Routes {
   static const IZIN_USER = _Paths.IZIN_USER;
   static const ADDEDIZIN = _Paths.ADDEDIZIN;
   static const SUBMISSIONIZIN = _Paths.SUBMISSIONIZIN;
+  static const IZIN_PDF = _Paths.IZIN_PDF;
 }
 
 abstract class _Paths {
@@ -18,5 +19,6 @@ abstract class _Paths {
   static const IZIN_USER = 'user';
   static const ADDEDIZIN = 'addizin';
   static const SUBMISSIONIZIN = 'submissionizin';
+  static const IZIN_PDF = 'pdf';
 
 }

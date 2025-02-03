@@ -60,6 +60,39 @@ class IzinCubit extends Cubit<IzinState> {
     state.ctrlDescription.text = izin.description ?? "";
   }
 
+  void parsingDataIzin(IzinAll? izin, User? user, String type) {
+    String convertDateFormat(String? date) {
+      DateTime parsedDate = DateFormat('yyyy-MM-dd').parse(date!);
+      String formattedDate = DateFormat('dd/MM/yyyy').format(parsedDate);
+      return formattedDate;
+    }
+    print("AAAAAAAAAAAAAAAAANJDNKFNDKNFSVKSVKD KS KVS VK ");
+    print(type);
+
+    print("userparsingdata");
+
+    print(user);
+    print("dataizin");
+    print(izin);
+
+
+    state.ctrlName.text = izin!.users!.name ?? '';
+    state.ctrlDivision.text = "IT";
+    state.ctrlEndDate.text = convertDateFormat(izin.endDate);
+    state.ctrlStartDate.text = convertDateFormat(izin.startDate);
+    state.ctrlEndTime.text = "Selesai";
+    state.ctrlStartTime.text = izin.startTime ?? "";
+    type == "detail" || type == "edit"
+        ? state.ctrlEndTime.text = izin.endTime ?? ""
+        : state.ctrlEndTime.clear();
+    type == "detail" || type == "edit"
+        ? state.ctrlReason.text = izin.reason ?? ""
+        : state.ctrlReason.clear();
+    type == "detail" || type == "edit"
+        ? state.ctrlDescription.text = izin.description ?? ""
+        : state.ctrlDescription.clear();
+  }
+
   Future<void> initData(BuildContext context) async {
     emit(state.copyWith(isLoading: true));
     try {
@@ -257,11 +290,19 @@ class IzinCubit extends Cubit<IzinState> {
             method: 'get');
         var result = json.decode(response!.body);
 
+        print("activity izin");
+
+        print(result);
+
         if (response.statusCode == 200) {
           var izinData = (result['data'] as List)
               .map((item) => IzinAll.fromJson(item))
               .toList()
               .cast<IzinAll>();
+
+              print("izindata");
+
+              print(izinData);
 
           if (state.selectedValue == 'Semua' || state.selectedValue == "") {
             emit(state.copyWith(isLoading: false, izinAll: izinData));
@@ -319,15 +360,28 @@ class IzinCubit extends Cubit<IzinState> {
     }
   }
 
-  void resetForm() {
+  void resetForm(IzinAll? izin, User? user) {
+    String convertDateFormat(String? date) {
+      DateTime parsedDate = DateFormat('yyyy-MM-dd').parse(date!);
+      String formattedDate = DateFormat('dd/MM/yyyy').format(parsedDate);
+      return formattedDate;
+    }
+
+    print("userparsingdata");
+
+    print(user);
     // state.kodepaketTextEditingController.clear();
     // state.judulTextEditingController.clear();
     // state.tahunTextEditingController.clear();
     // state.keteranganTextEditingController.clear();
-    state.ctrlName.clear();
-    state.ctrlStartDate.clear();
-    state.ctrlEndDate.clear();
-    state.ctrlStartTime.clear();
+    state.ctrlName.text = izin!.users!.name ?? '';
+    state.ctrlDivision.text = "IT";
+    state.ctrlEndDate.text = convertDateFormat(izin.endDate) ?? "";
+    state.ctrlStartDate.text = convertDateFormat(izin.startDate)?? "";
+    state.ctrlStartTime.text = izin.startTime ?? "";
+    // state.ctrlName.clear();
+    // state.ctrlStartDate.clear();
+    // state.ctrlEndDate.clear();
     state.ctrlEndTime.clear();
     state.ctrlReason.clear();
     state.ctrlDescription.clear();
@@ -375,7 +429,7 @@ class IzinCubit extends Cubit<IzinState> {
               titleMessage: 'Success',
               typeMessage: 'success'));
           emit(state.copyWith(message: '', titleMessage: '', typeMessage: ''));
-          resetForm();
+          // resetForm();
           await initIzinData(
               context); // Call initIzinData to update izinAll data
         } else {
@@ -519,7 +573,7 @@ class IzinCubit extends Cubit<IzinState> {
               titleMessage: 'Success',
               typeMessage: 'success'));
           emit(state.copyWith(message: '', titleMessage: '', typeMessage: ''));
-          resetForm();
+          // resetForm();
           await initIzinData(
               context); // Call initIzinData to update izinAll data
         } else {

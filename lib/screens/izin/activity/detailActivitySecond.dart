@@ -5,6 +5,7 @@ import 'package:hma2/model/izinAll.dart';
 import 'package:intl/intl.dart';
 import '../../../bloc/izin/izin_cubit.dart';
 import '../../../bloc/izin/izin_state.dart';
+import '../../../model/user.dart';
 import '../../../utils/constants/colors.dart';
 import '../../components/textFormField.dart';
 
@@ -12,15 +13,17 @@ enum ActionMode { add, edit, view }
 
 class DetailActivityPage extends StatefulWidget {
   // final ActionMode actionMode; // Menambahkan parameter actionMode
-   final String type;
-  final IzinAll izin;
-  // final User user;
+  final String type;
+  final IzinAll? izin;
+  final User? user;
 
-  const DetailActivityPage(
-      {super.key,
-      // required this.actionMode,
-      required this.type,
-      required this.izin});
+  const DetailActivityPage({
+    super.key,
+    // required this.actionMode,
+    required this.type,
+    required this.izin,
+    required this.user,
+  });
 
   @override
   State<DetailActivityPage> createState() => _DetailActivityPageState();
@@ -45,6 +48,36 @@ class _DetailActivityPageState extends State<DetailActivityPage> {
     izinCubit = context.read<IzinCubit>();
     izinCubit.initUserIzinData(context);
     izinCubit.initIzinData(context);
+
+    print("status");
+    print(widget.izin!.status);
+
+    if (widget.type == "edit" || widget.type == "detail") {
+      context
+          .read<IzinCubit>()
+          .parsingDataIzin(widget.izin, widget.user, widget.type);
+    } 
+    else{
+      // context.read<IzinCubit>().resetForm(widget.izin, widget.user);
+      context
+          .read<IzinCubit>()
+          .parsingDataIzin(widget.izin, widget.user, widget.type);
+    }
+    //  else if((widget.type == 'tambah')){
+    //   print('masuk type tambahModulIzin');
+    //    context
+    //       .read<IzinCubit>()
+    //       .parsingDataIzin(widget.izin, widget.user, widget.type);
+    // }
+    // else {
+    //   // context
+    //   //     .read<IzinCubit>()
+    //   //     .parsingDataIzin(widget.izin, widget.user, widget.type);
+    //   // context.read<IzinCubit>().resetForm(widget.izin, widget.user);
+    //    context
+    //       .read<IzinCubit>()
+    //       .parsingDataIzin(widget.izin, widget.user, widget.type);
+    // }
   }
 
   @override
@@ -67,10 +100,10 @@ class _DetailActivityPageState extends State<DetailActivityPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.type == 'edit'
-                ? 'Edit Paket'
-                : widget.type == 'detail'
-                    ? 'Detail Paket'
-                    : 'Tambah Paket'),
+            ? 'Edit Paket'
+            : widget.type == 'detail'
+                ? 'Detail Paket'
+                : 'Tambah Paket'),
       ),
       body: BlocConsumer<IzinCubit, IzinState>(listener: (context, state) {
         if (state.message.isNotEmpty &&
@@ -88,7 +121,7 @@ class _DetailActivityPageState extends State<DetailActivityPage> {
             title: state.titleMessage,
             desc: state.message,
             btnOkOnPress: () async {
-              izinCubit.resetForm();
+              // izinCubit.resetForm();
               // profileCubit.refreshData(context);
             },
           ).show();
@@ -208,70 +241,68 @@ class _DetailActivityPageState extends State<DetailActivityPage> {
                           height: 5,
                         ),
                         TextFormFoeldActivity(
-                          readOnly: 
-                          // widget.actionMode == ActionMode.view &&
-                          //         widget.status != "Pending"
-                          //     ? 
+                          readOnly:
+                              // widget.actionMode == ActionMode.view &&
+                              //         widget.status != "Pending"
+                              //     ?
                               true
-                              // : 
-                              // false
-                              ,
-                          enable: 
-                          // widget.actionMode == ActionMode.view &&
-                          //         widget.status != "Pending"
-                          //     ? 
+                          // :
+                          // false
+                          ,
+                          enable:
+                              // widget.actionMode == ActionMode.view &&
+                              //         widget.status != "Pending"
+                              //     ?
                               false
-                              // : true
-                              ,
+                          // : true
+                          ,
                           title: "Dari Tanggal",
                           focusNode: _focusNodes[1],
                           controller: state.ctrlStartDate,
-                          onClick: 
-                          // (widget.actionMode == ActionMode.add)
-                          //  ||
-                          //         (widget.actionMode == ActionMode.view &&
-                          //             widget.status == "Pending")
-                              // ? 
+                          onClick:
+                              // (widget.actionMode == ActionMode.add)
+                              //  ||
+                              //         (widget.actionMode == ActionMode.view &&
+                              //             widget.status == "Pending")
+                              // ?
                               () async {
-                                  DateTime? pickedDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2022),
-                                    lastDate: DateTime(
-                                        2025), // Ubah sesuai dengan batas tanggal yang diinginkan
-                                    builder: (context, child) {
-                                      return Theme(
-                                        data: Theme.of(context).copyWith(
-                                          colorScheme: const ColorScheme.light(
-                                            primary: Colors.blue,
-                                            onPrimary: Colors.white,
-                                            onSurface: Colors.black,
-                                          ),
-                                          textButtonTheme: TextButtonThemeData(
-                                            style: TextButton.styleFrom(
-                                                foregroundColor: Colors.amber),
-                                          ),
-                                        ),
-                                        child: child!,
-                                      );
-                                    },
-                                  );
-                                  if (pickedDate != null) {
-                                    String formattedDate =
-                                        DateFormat('dd/MM/yyyy')
-                                            .format(pickedDate);
+                            DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2022),
+                              lastDate: DateTime(
+                                  2025), // Ubah sesuai dengan batas tanggal yang diinginkan
+                              builder: (context, child) {
+                                return Theme(
+                                  data: Theme.of(context).copyWith(
+                                    colorScheme: const ColorScheme.light(
+                                      primary: Colors.blue,
+                                      onPrimary: Colors.white,
+                                      onSurface: Colors.black,
+                                    ),
+                                    textButtonTheme: TextButtonThemeData(
+                                      style: TextButton.styleFrom(
+                                          foregroundColor: Colors.amber),
+                                    ),
+                                  ),
+                                  child: child!,
+                                );
+                              },
+                            );
+                            if (pickedDate != null) {
+                              String formattedDate =
+                                  DateFormat('dd/MM/yyyy').format(pickedDate);
 
-                                    setState(
-                                      () {
-                                        state.ctrlStartDate.text =
-                                            formattedDate;
-                                        print("value");
-                                        print(state.ctrlStartDate.text);
-                                      },
-                                    );
-                                  }
+                              setState(
+                                () {
+                                  state.ctrlStartDate.text = formattedDate;
+                                  print("value");
+                                  print(state.ctrlStartDate.text);
                                 },
-                              // : () async {},
+                              );
+                            }
+                          },
+                          // : () async {},
                           onChanged: (String value) {
                             state.ctrlStartDate.text = value;
                             // print("valueygdipilih");
@@ -283,67 +314,65 @@ class _DetailActivityPageState extends State<DetailActivityPage> {
                         ),
                         TextFormFoeldActivity(
                           readOnly:
-                          //  widget.actionMode == ActionMode.view &&
-                          //         widget.status != "Pending"
-                          //     ? true
-                          //     : 
+                              //  widget.actionMode == ActionMode.view &&
+                              //         widget.status != "Pending"
+                              //     ? true
+                              //     :
                               false,
                           enable:
-                          //  widget.actionMode == ActionMode.view &&
-                          //         widget.status != "Pending"
-                          //     ? false
-                          //     : 
+                              //  widget.actionMode == ActionMode.view &&
+                              //         widget.status != "Pending"
+                              //     ? false
+                              //     :
                               true,
                           title: "Sampai Tanggal",
                           focusNode: _focusNodes[2],
                           controller: state.ctrlEndDate,
-                          onClick: 
-                          // (widget.actionMode == ActionMode.add)
-                          //  ||
-                                  // (widget.actionMode == ActionMode.view &&
-                                  //     widget.status == "Pending")
-                              // ? 
+                          onClick:
+                              // (widget.actionMode == ActionMode.add)
+                              //  ||
+                              // (widget.actionMode == ActionMode.view &&
+                              //     widget.status == "Pending")
+                              // ?
                               () async {
-                                  print(
-                                      "TextFormField clicked"); // Debugging check
-                                  DateTime? pickedDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2022),
-                                    lastDate: DateTime(
-                                        2025), // Ubah sesuai dengan batas tanggal yang diinginkan
-                                    builder: (context, child) {
-                                      return Theme(
-                                        data: Theme.of(context).copyWith(
-                                          colorScheme: const ColorScheme.light(
-                                            primary: Colors.blue,
-                                            onPrimary: Colors.white,
-                                            onSurface: Colors.black,
-                                          ),
-                                          textButtonTheme: TextButtonThemeData(
-                                            style: TextButton.styleFrom(
-                                                foregroundColor: Colors.amber),
-                                          ),
-                                        ),
-                                        child: child!,
-                                      );
-                                    },
-                                  );
-                                  if (pickedDate != null) {
-                                    String formattedDate =
-                                        DateFormat('dd/MM/yyyy')
-                                            .format(pickedDate);
+                            print("TextFormField clicked"); // Debugging check
+                            DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2022),
+                              lastDate: DateTime(
+                                  2025), // Ubah sesuai dengan batas tanggal yang diinginkan
+                              builder: (context, child) {
+                                return Theme(
+                                  data: Theme.of(context).copyWith(
+                                    colorScheme: const ColorScheme.light(
+                                      primary: Colors.blue,
+                                      onPrimary: Colors.white,
+                                      onSurface: Colors.black,
+                                    ),
+                                    textButtonTheme: TextButtonThemeData(
+                                      style: TextButton.styleFrom(
+                                          foregroundColor: Colors.amber),
+                                    ),
+                                  ),
+                                  child: child!,
+                                );
+                              },
+                            );
+                            if (pickedDate != null) {
+                              String formattedDate =
+                                  DateFormat('dd/MM/yyyy').format(pickedDate);
 
-                                    setState(
-                                      () {
-                                        state.ctrlEndDate.text = formattedDate;
-                                        print("value");
-                                        print(state.ctrlEndDate.text);
-                                      },
-                                    );
-                                  }
+                              setState(
+                                () {
+                                  state.ctrlEndDate.text = formattedDate;
+                                  print("value");
+                                  print(state.ctrlEndDate.text);
                                 },
-                              // : () async {},
+                              );
+                            }
+                          },
+                          // : () async {},
                           onChanged: (String value) {
                             state.ctrlEndDate.text = value;
                           },
@@ -352,54 +381,50 @@ class _DetailActivityPageState extends State<DetailActivityPage> {
                           height: 5,
                         ),
                         TextFormFoeldActivity(
-                          readOnly: 
-                          // widget.actionMode == ActionMode.view &&
-                          //         widget.status != "Pending"
-                          //     ? true
-                          //     : 
+                          readOnly:
+                              // widget.actionMode == ActionMode.view &&
+                              //         widget.status != "Pending"
+                              //     ? true
+                              //     :
                               false,
-                          enable: 
-                          // widget.actionMode == ActionMode.view &&
-                          //         widget.status != "Pending"
-                          //     ? false
-                          //     :
-                               true,
+                          enable:
+                              // widget.actionMode == ActionMode.view &&
+                              //         widget.status != "Pending"
+                              //     ? false
+                              //     :
+                              true,
                           title: "Dari Jam",
                           focusNode: _focusNodes[4],
                           controller: state.ctrlStartTime,
-                          onClick: 
-                          // (widget.actionMode == ActionMode.add)
-                          //  ||
-                          //         (widget.actionMode == ActionMode.view &&
-                          //             widget.status == "Pending")
+                          onClick:
+                              // (widget.actionMode == ActionMode.add)
+                              //  ||
+                              //         (widget.actionMode == ActionMode.view &&
+                              //             widget.status == "Pending")
                               // ?
-                               () async {
-                                  TimeOfDay? pickedTime = await showTimePicker(
-                                    context: context,
-                                    initialTime: TimeOfDay
-                                        .now(), // Mulai dengan jam sekarang
-                                  );
+                              () async {
+                            TimeOfDay? pickedTime = await showTimePicker(
+                              context: context,
+                              initialTime:
+                                  TimeOfDay.now(), // Mulai dengan jam sekarang
+                            );
 
-                                  if (pickedTime != null) {
-                                    // Format waktu yang dipilih dan masukkan ke controller
-                                    final now = DateTime.now();
-                                    final selectedTime = DateTime(
-                                        now.year,
-                                        now.month,
-                                        now.day,
-                                        pickedTime.hour,
-                                        pickedTime.minute);
-                                    String formattedTime = DateFormat('HH:mm')
-                                        .format(selectedTime);
+                            if (pickedTime != null) {
+                              // Format waktu yang dipilih dan masukkan ke controller
+                              final now = DateTime.now();
+                              final selectedTime = DateTime(now.year, now.month,
+                                  now.day, pickedTime.hour, pickedTime.minute);
+                              String formattedTime =
+                                  DateFormat('HH:mm').format(selectedTime);
 
-                                    setState(() {
-                                      state.ctrlStartTime.text = formattedTime;
-                                      print("waktu yg dipilih");
-                                      print(formattedTime);
-                                    });
-                                  }
-                                },
-                              // : () async {},
+                              setState(() {
+                                state.ctrlStartTime.text = formattedTime;
+                                print("waktu yg dipilih");
+                                print(formattedTime);
+                              });
+                            }
+                          },
+                          // : () async {},
                           onChanged: (String value) {
                             state.ctrlStartTime.text = value;
                           },
@@ -408,17 +433,17 @@ class _DetailActivityPageState extends State<DetailActivityPage> {
                           height: 5,
                         ),
                         TextFormFoeldActivity(
-                          readOnly: 
-                          // widget.actionMode == ActionMode.view &&
-                          //         widget.status != "Pending"
-                          //     ? true
-                          //     :
+                          readOnly:
+                              // widget.actionMode == ActionMode.view &&
+                              //         widget.status != "Pending"
+                              //     ? true
+                              //     :
                               false,
                           enable:
-                          // widget.actionMode == ActionMode.view &&
-                          //         widget.status != "Pending"
-                          //     ? false
-                          //     : 
+                              // widget.actionMode == ActionMode.view &&
+                              //         widget.status != "Pending"
+                              //     ? false
+                              //     :
                               true,
                           title: "Sampai Jam",
                           focusNode: _focusNodes[5],
@@ -433,49 +458,49 @@ class _DetailActivityPageState extends State<DetailActivityPage> {
                         ),
                         TextFormFoeldActivity(
                           readOnly:
-                          //  widget.actionMode == ActionMode.view &&
-                          //         widget.status != "Pending"
-                          //     ? true
-                          //     : 
+                              //  widget.actionMode == ActionMode.view &&
+                              //         widget.status != "Pending"
+                              //     ? true
+                              //     :
                               false,
                           enable:
-                          //  widget.actionMode == ActionMode.view &&
-                          //         widget.status != "Pending"
-                          //     ? false
-                          //     : 
+                              //  widget.actionMode == ActionMode.view &&
+                              //         widget.status != "Pending"
+                              //     ? false
+                              //     :
                               true,
                           title: "Alasan",
                           focusNode: _focusNodes[6],
                           controller: state.ctrlReason,
-                          onClick: 
-                          // (widget.actionMode == ActionMode.add)
-                          //  ||
-                          //         (widget.actionMode == ActionMode.view &&
-                          //             widget.status == "Pending")
-                              // ? 
+                          onClick:
+                              // (widget.actionMode == ActionMode.add)
+                              //  ||
+                              //         (widget.actionMode == ActionMode.view &&
+                              //             widget.status == "Pending")
+                              // ?
                               () async {
-                                  // Menampilkan bottom sheet dengan daftar opsi
-                                  await showModalBottomSheet(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: state.optionIzin
-                                            .map((String option) {
-                                          return ListTile(
-                                            title: Text(option),
-                                            onTap: () {
-                                              state.ctrlReason.text = option;
-                                              Navigator.pop(
-                                                  context); // Menutup modal setelah memilih
-                                            },
-                                          );
-                                        }).toList(),
-                                      );
-                                    },
-                                  );
-                                },
-                              // : () async {},
+                            // Menampilkan bottom sheet dengan daftar opsi
+                            await showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children:
+                                      state.optionIzin.map((String option) {
+                                    return ListTile(
+                                      title: Text(option),
+                                      onTap: () {
+                                        state.ctrlReason.text = option;
+                                        Navigator.pop(
+                                            context); // Menutup modal setelah memilih
+                                      },
+                                    );
+                                  }).toList(),
+                                );
+                              },
+                            );
+                          },
+                          // : () async {},
                           onChanged: (String value) {
                             state.ctrlReason.text = value;
                           },
@@ -484,17 +509,9 @@ class _DetailActivityPageState extends State<DetailActivityPage> {
                           height: 5,
                         ),
                         TextFormFoeldActivity(
-                          readOnly: 
-                          // widget.actionMode == ActionMode.view &&
-                          //         widget.status != "Pending"
-                          //     ? true
-                          //     : 
+                          readOnly:
                               false,
                           enable:
-                          //  widget.actionMode == ActionMode.view &&
-                          //         widget.status != "Pending"
-                          //     ? false
-                          //     : 
                               true,
                           title: "Deskripsi",
                           focusNode: _focusNodes[7],
@@ -507,9 +524,14 @@ class _DetailActivityPageState extends State<DetailActivityPage> {
                         const SizedBox(
                           height: 5,
                         ),
-                        if (widget.type == ActionMode.view 
-                        // &&
-                        //     widget.status == "Pending"
+                        if (
+                          // widget.type == ActionMode.view
+                            // &&
+                            //     widget.status == "Pending"
+                            // widget.izin!.status =="Pending"
+                            widget.izin!.status == "1" &&
+                                  widget.izin!.statusAdmin == "1" &&
+                                  widget.izin!.statusSuperadmin == "1"
                             )
                           Row(
                             children: [
@@ -524,9 +546,9 @@ class _DetailActivityPageState extends State<DetailActivityPage> {
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   onPressed: () {
-                                    final id ="1"
-                                    //  widget.id
-                                     ;
+                                    final id = "1"
+                                        //  widget.id
+                                        ;
                                     final startDate = state.ctrlStartDate.text;
                                     final endDate = state.ctrlEndDate.text;
                                     final startTime = state.ctrlStartTime.text;
@@ -578,8 +600,8 @@ class _DetailActivityPageState extends State<DetailActivityPage> {
                                   ),
                                   onPressed: () {
                                     final id = "1"
-                                    // widget.id
-                                    ;
+                                        // widget.id
+                                        ;
                                     final startDate = state.ctrlStartDate.text;
                                     final endDate = state.ctrlEndDate.text;
                                     final startTime = state.ctrlStartTime.text;
@@ -619,65 +641,66 @@ class _DetailActivityPageState extends State<DetailActivityPage> {
                               )
                             ],
                           )
-                        else if (widget.type == ActionMode.add)
+                        // else if (widget.type == ActionMode.add)
+                        else if (widget.type == "tambah")
                           Container(
                             padding: const EdgeInsets.only(top: 20),
                             child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: ColorApp.button,
-                                ),
-                                child: const Text(
-                                  'Tambah',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 14),
-                                ),
-                                onPressed: () {
-                                  final startDate = state.ctrlStartDate.text;
-                                  final endDate = state.ctrlEndDate.text;
-                                  final startTime = state.ctrlStartTime.text;
-                                  final endTime = state.ctrlEndTime.text;
-                                  final reason = state.ctrlReason.text;
-                                  final description =
-                                      state.ctrlDescription.text;
-                                  final username = state.userIzin.username;
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorApp.button,
+                              ),
+                              child: const Text(
+                                'Tambah',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 14),
+                              ),
+                              onPressed: () {
+                                final startDate = state.ctrlStartDate.text;
+                                final endDate = state.ctrlEndDate.text;
+                                final startTime = state.ctrlStartTime.text;
+                                final endTime = state.ctrlEndTime.text;
+                                final reason = state.ctrlReason.text;
+                                final description = state.ctrlDescription.text;
+                                final username = state.userIzin.username;
 
-                                  print('tampilkan dialog');
-                                  AwesomeDialog(
-                                    dismissOnTouchOutside: false,
-                                    context: context,
-                                    dialogType: DialogType.info,
-                                    animType: AnimType.topSlide,
-                                    title: "Konfirmasi",
-                                    desc:
-                                        "Apakah anda yakin ingin simpan data ???",
-                                    btnCancelOnPress: () {},
-                                    btnOkOnPress: () async {
-                                      // profileCubit.refreshData(context);
-                                      izinCubit.initAddIzinData(
-                                          context,
-                                          startDate,
-                                          endDate,
-                                          startTime,
-                                          endTime,
-                                          reason,
-                                          description,
-                                          username);
-                                      // switch (widget.type) {
-                                      //   case 'edit':
-                                      //     context
-                                      //         .read<PaketCubit>()
-                                      //         .updatePaket(widget.paket);
-                                      //     break;
-                                      //   case 'tambah':
-                                      //     context
-                                      //         .read<PaketCubit>()
-                                      //         .savePaket();
-                                      //     break;
-                                      //   default:
-                                      // }
-                                    },
-                                  ).show();
-                                }),
+                                print('tampilkan dialog');
+                                AwesomeDialog(
+                                  dismissOnTouchOutside: false,
+                                  context: context,
+                                  dialogType: DialogType.info,
+                                  animType: AnimType.topSlide,
+                                  title: "Konfirmasi",
+                                  desc:
+                                      "Apakah anda yakin ingin simpan data ???",
+                                  btnCancelOnPress: () {},
+                                  btnOkOnPress: () async {
+                                    // profileCubit.refreshData(context);
+                                    izinCubit.initAddIzinData(
+                                        context,
+                                        startDate,
+                                        endDate,
+                                        startTime,
+                                        endTime,
+                                        reason,
+                                        description,
+                                        username);
+                                    // switch (widget.type) {
+                                    //   case 'edit':
+                                    //     context
+                                    //         .read<PaketCubit>()
+                                    //         .updatePaket(widget.paket);
+                                    //     break;
+                                    //   case 'tambah':
+                                    //     context
+                                    //         .read<PaketCubit>()
+                                    //         .savePaket();
+                                    //     break;
+                                    //   default:
+                                    // }
+                                  },
+                                ).show();
+                              },
+                            ),
                           )
                         else
                           (Container()),

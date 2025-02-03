@@ -54,7 +54,8 @@ class _DetailSubmissionRowState extends State<DetailSubmissionRow> {
     if (widget.type == "edit" || widget.type == "detail") {
       context.read<IzinCubit>().parsingData(widget.izin, widget.user);
     } else {
-      context.read<IzinCubit>().resetForm();
+       context.read<IzinCubit>().parsingData(widget.izin, widget.user);
+      // context.read<IzinCubit>().resetForm();
     }
   }
 
@@ -125,51 +126,6 @@ class _DetailSubmissionRowState extends State<DetailSubmissionRow> {
           return formattedDate;
         }
 
-        // if (widget.actionMode == ActionMode.add) {
-        //   if (state.ctrlStartDate.text.isEmpty &&
-        //       state.ctrlEndDate.text.isEmpty) {
-        //     final currentDate =
-        //         DateFormat('dd/MM/yyyy').format(DateTime.now());
-        //     state.ctrlStartDate.text = currentDate;
-        //     state.ctrlEndDate.text = currentDate;
-        //   }
-        //   if (state.ctrlStartTime.text.isEmpty) {
-        //     final currentTime = DateFormat('HH:mm').format(DateTime.now());
-        //     state.ctrlStartTime.text = currentTime;
-        //   }
-        // } else if (widget.actionMode == ActionMode.view &&
-        //     widget.status == "Pending") {
-        //   izinCubit.state.ctrlName.text = widget.name;
-
-        //   // izinCubit.state.ctrlStartDate.text = convertDateFormat(widget.startDate);
-        //   // izinCubit.state.ctrlEndDate.text = convertDateFormat(widget.endDate);
-        //   // izinCubit.state.ctrlStartTime.text = widget.startTime;
-
-        //   if (state.ctrlStartDate.text.isEmpty &&
-        //       state.ctrlEndDate.text.isEmpty) {
-        //     // final currentDate =
-        //     //     DateFormat('dd/MM/yyyy').format(DateTime.now());
-        //     state.ctrlStartDate.text = convertDateFormat(widget.startDate);
-        //     ;
-        //     state.ctrlEndDate.text = convertDateFormat(widget.endDate);
-        //   }
-        //   if (state.ctrlStartTime.text.isEmpty) {
-        //     // final currentTime = DateFormat('HH:mm').format(DateTime.now());
-        //     state.ctrlStartTime.text = widget.startTime;
-        //   }
-
-        //   izinCubit.state.ctrlEndTime.text = widget.endTime;
-        //   izinCubit.state.ctrlReason.text = widget.reason;
-        //   izinCubit.state.ctrlDescription.text = widget.description;
-        // } else {
-        //   izinCubit.state.ctrlName.text = widget.name;
-        //   izinCubit.state.ctrlStartDate.text = widget.startDate;
-        //   izinCubit.state.ctrlEndDate.text = widget.endDate;
-        //   izinCubit.state.ctrlStartTime.text = widget.startTime;
-        //   izinCubit.state.ctrlEndTime.text = widget.endTime;
-        //   izinCubit.state.ctrlReason.text = widget.reason;
-        //   izinCubit.state.ctrlDescription.text = widget.description;
-        // }
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(15),

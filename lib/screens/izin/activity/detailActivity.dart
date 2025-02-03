@@ -2,7 +2,6 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-
 import '../../../bloc/izin/izin_cubit.dart';
 import '../../../bloc/izin/izin_state.dart';
 import '../../../utils/constants/colors.dart';
@@ -99,7 +98,7 @@ class _DetailActivityState extends State<DetailActivity> {
             title: state.titleMessage,
             desc: state.message,
             btnOkOnPress: () async {
-              izinCubit.resetForm();
+              // izinCubit.resetForm();
               // profileCubit.refreshData(context);
             },
           ).show();
@@ -275,8 +274,6 @@ class _DetailActivityState extends State<DetailActivity> {
                               : () async {},
                           onChanged: (String value) {
                             state.ctrlStartDate.text = value;
-                            // print("valueygdipilih");
-                            // print(state.ctrlStartDate.text);
                           },
                         ),
                         const SizedBox(
@@ -618,7 +615,6 @@ class _DetailActivityState extends State<DetailActivity> {
                                         "Apakah anda yakin ingin simpan data ???",
                                     btnCancelOnPress: () {},
                                     btnOkOnPress: () async {
-                                      // profileCubit.refreshData(context);
                                       izinCubit.initAddIzinData(
                                           context,
                                           startDate,
