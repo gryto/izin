@@ -66,6 +66,7 @@ class IzinCubit extends Cubit<IzinState> {
       String formattedDate = DateFormat('dd/MM/yyyy').format(parsedDate);
       return formattedDate;
     }
+
     state.ctrlName.text = izin!.users!.name ?? '';
     state.ctrlDivision.text = "IT";
     state.ctrlEndDate.text = convertDateFormat(izin.endDate);
@@ -98,11 +99,29 @@ class IzinCubit extends Cubit<IzinState> {
             token: token,
             method: 'get');
         var result = json.decode(response!.body);
+
+        print("Data dari result['data']: ${result['data']}");
+
+        print("data dashboard");
+
+        print(result);
+        print(response.statusCode);
+
         if (response.statusCode == 200) {
+          print("stlh 200");
+          var dashboardIzin = DashboardIzinAll.fromJson(result['data']);
+          print("stlh 200");
+          print(dashboardIzin);
+          // print(DashboardIzinAll.fromJson(result['data']));
+
           // DashboardIzinAll.fromJson(result['data']);
+          // print("didalam");
+
+          // print(DashboardIzinAll.fromJson(result['data']));
+
           emit(
             state.copyWith(
-              dashboardIzin: DashboardIzinAll.fromJson(result['data']),
+              dashboardIzin: dashboardIzin,
             ),
           );
         } else {
@@ -203,9 +222,9 @@ class IzinCubit extends Cubit<IzinState> {
               .toList()
               .cast<IzinAll>();
 
-              print("izindata");
+          print("izindata");
 
-              print(izinData);
+          print(izinData);
 
           if (state.selectedValue == 'Semua' || state.selectedValue == "") {
             emit(state.copyWith(isLoading: false, izinAll: izinData));
@@ -269,6 +288,7 @@ class IzinCubit extends Cubit<IzinState> {
       String formattedDate = DateFormat('dd/MM/yyyy').format(parsedDate);
       return formattedDate;
     }
+
     state.ctrlName.text = izin!.users!.name ?? '';
     state.ctrlDivision.text = "IT";
     state.ctrlEndDate.text = convertDateFormat(izin.endDate);

@@ -15,131 +15,98 @@ class _DashboardIzinState extends State<DashboardIzin> {
   @override
   void initState() {
     super.initState();
-    // Panggil initData saat widget pertama kali diinisialisasi
-    // profileCubit = BlocProvider.of<ProfileCubit>(context); // untuk
     izinCubit = context.read<IzinCubit>();
     izinCubit.initData(context);
+    print("stlh initdata");
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocConsumer<IzinCubit, IzinState>(
-          listener: (BuildContext context, IzinState state) {},
-          builder: (context, state) {
-            return Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    // Bagian Card di bawah
-                    Card(
-                      color: const Color.fromARGB(255, 61, 131, 248),
+  return Scaffold(
+    body: BlocConsumer<IzinCubit, IzinState>(
+      listener: (BuildContext context, IzinState state) {},
+      builder: (context, state) {
+        // Pastikan data sudah terisi dan state adalah IzinLoadedState
+        // if (state is IzinLoadedState) {
+          var dashboardIzin = state.dashboardIzin;  // DashboardIzinAll object
+
+          // List data yang akan ditampilkan di ListView
+          var dataList = [
+            {
+              'title': 'Izin Disetujui',
+              'count': dashboardIzin.allIzin,  // Mengakses properti langsung
+              'icon': Icons.list,
+              'color': Color.fromARGB(255, 61, 131, 248)
+            },
+            {
+              'title': 'Izin Disetujui',
+              'count': dashboardIzin.approveIzin,  // Mengakses properti langsung
+              'icon': Icons.approval,
+              'color': Color.fromARGB(255, 12, 159, 111)
+            },
+            {
+              'title': 'Semua Izin',
+              'count': dashboardIzin.failedIzin,  // Mengakses properti langsung
+              'icon': Icons.cancel_outlined,
+              'color': Color.fromARGB(255, 240, 81, 82)
+            },
+          ];
+
+          return Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: SingleChildScrollView(
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: dataList.length,
+                itemBuilder: (context, index) {
+                  var item = dataList[index];
+
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0),
+                    child: Card(
+                      color: item['color'] as Color,
                       child: Padding(
                         padding: const EdgeInsets.all(25),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Icon(
-                              Icons.list,
+                            Icon(
+                              item['icon'] as IconData?,
                               color: Colors.white60,
                               size: 50,
                             ),
-                            Column(children: [
-                              Text(
-                                state.dashboardIzin.allIzin != null
-                                    ? state.dashboardIzin.allIzin.toString()
-                                    : "0",
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  item['count'].toString(),  // Menggunakan count
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              const Text(
-                                "Izin Disetujui",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ]),
+                                Text(
+                                  item['title'] as String,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Card(
-                      color: const Color.fromARGB(255, 12, 159, 111),
-                      child: Padding(
-                        padding: const EdgeInsets.all(25),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Icon(
-                              Icons.approval,
-                              color: Colors.white60,
-                              size: 50,
-                            ),
-                            Column(children: [
-                              Text(
-                                state.dashboardIzin.approveIzin != null
-                                    ? state.dashboardIzin.approveIzin.toString()
-                                    : "0",
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const Text(
-                                "Izin Ditolak",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ]),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Card(
-                      color: const Color.fromARGB(255, 240, 81, 82),
-                      child: Padding(
-                        padding: const EdgeInsets.all(25),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Icon(
-                              Icons.cancel_outlined,
-                              color: Colors.white60,
-                              size: 50,
-                            ),
-                            Column(children: [
-                              Text(
-                                state.dashboardIzin.failedIzin != null
-                                    ? state.dashboardIzin.failedIzin.toString()
-                                    : "0",
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const Text(
-                                "Semua Izin",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ]),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
-            );
-          }),
-    );
-  }
+            ),
+          );
+        // } else {
+        //   return Center(child: CircularProgressIndicator());
+        // }
+      },
+    ),
+  );
+}
 }
