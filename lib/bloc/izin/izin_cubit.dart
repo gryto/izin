@@ -66,16 +66,6 @@ class IzinCubit extends Cubit<IzinState> {
       String formattedDate = DateFormat('dd/MM/yyyy').format(parsedDate);
       return formattedDate;
     }
-    print("AAAAAAAAAAAAAAAAANJDNKFNDKNFSVKSVKD KS KVS VK ");
-    print(type);
-
-    print("userparsingdata");
-
-    print(user);
-    print("dataizin");
-    print(izin);
-
-
     state.ctrlName.text = izin!.users!.name ?? '';
     state.ctrlDivision.text = "IT";
     state.ctrlEndDate.text = convertDateFormat(izin.endDate);
@@ -127,93 +117,6 @@ class IzinCubit extends Cubit<IzinState> {
           isLoading: false, errorMessage: 'Failed to load data'));
     }
   }
-
-  // Future<void> initMenu() async {
-  //   emit(state.copyWith(currentScreen: 'Dashboard', listMenu: []));
-
-  //   try {
-  //     String? user = await Helper().getDataUser();
-
-  //     if (user != null) {
-  //       // Decode the user information and extract the userId
-  //       var decodedUser = jsonDecode(user);
-  //       String role =
-  //           decodedUser['role']; // Assuming 'id' is part of the user model
-
-  //       List<MenuIzin> menuItems = [
-  //         MenuIzin(
-  //           title: "Dashboard",
-  //           icon: const Icon(Icons.dashboard),
-  //           screen: const DashboardIzin(),
-  //         ),
-  //         MenuIzin(
-  //           title: "Pengajuan Izin",
-  //           icon: const Icon(Icons.calendar_month),
-  //           screen: const SubmissionPage(),
-  //         ),
-  //         MenuIzin(
-  //           title: "Izin Saya",
-  //           icon: const Icon(Icons.timeline),
-  //           screen: const AktivitasIzin(),
-  //         ),
-  //         MenuIzin(
-  //           title: "Laporan Pengajuan Izin",
-  //           icon: const Icon(Icons.note),
-  //           screen: const ReportPage(),
-  //         ),
-  //         MenuIzin(
-  //           title: "User",
-  //           icon: const Icon(Icons.man),
-  //           screen: const UserIzinPage(),
-  //         )
-  //       ];
-
-  //       // Adjust the menu based on userId
-  //       if (role == "1") {
-  //         // Show all menus for role == 1
-  //         menuItems = menuItems
-  //             .where((menu) =>
-  //                 menu.title == "Dashboard" ||
-  //                 menu.title == "Pengajuan Izin" ||
-  //                 menu.title == "Izin Saya" ||
-  //                 menu.title == "Laporan Pengajuan Izin" ||
-  //                 menu.title == "User")
-  //             .toList();
-  //       } else if (role == "2") {
-  //         // Hide "User" menu for role == 2
-  //         menuItems = menuItems
-  //             .where((menu) =>
-  //                 menu.title == "Dashboard" ||
-  //                 menu.title == "Pengajuan Izin" ||
-  //                 menu.title == "Izin Saya" ||
-  //                 menu.title == "Laporan Pengajuan Izin")
-  //             .toList();
-
-  //         // menuItems.removeWhere((menu) => menu.title == "User");
-  //       } else if (role == "3") {
-  //         // Only show Dashboard and "Izin Saya" for role == 3
-  //         menuItems = menuItems
-  //             .where((menu) =>
-  //                 menu.title == "Dashboard" ||
-  //                 menu.title == "Pengajuan Izin" ||
-  //                 menu.title == "Izin Saya")
-  //             .toList();
-  //         // menuItems.removeWhere((menu) => menu.title == "User" &&  menu.title == "Laporan Pengajuan Izin" );
-  //       } else {
-  //         menuItems = menuItems
-  //             .where((menu) =>
-  //                 menu.title == "Dashboard" || menu.title == "Izin Saya")
-  //             .toList();
-  //       }
-
-  //       emit(state.copyWith(listMenu: menuItems));
-  //     }
-  //   } catch (e) {
-  //     // Handle error if any
-  //     emit(state.copyWith(
-  //         isLoading: false, errorMessage: 'Failed to load menu'));
-  //   }
-  // }
 
   Future<void> initMenu() async {
     emit(state.copyWith(currentScreen: 'Dashboard', listMenu: []));
@@ -366,22 +269,11 @@ class IzinCubit extends Cubit<IzinState> {
       String formattedDate = DateFormat('dd/MM/yyyy').format(parsedDate);
       return formattedDate;
     }
-
-    print("userparsingdata");
-
-    print(user);
-    // state.kodepaketTextEditingController.clear();
-    // state.judulTextEditingController.clear();
-    // state.tahunTextEditingController.clear();
-    // state.keteranganTextEditingController.clear();
     state.ctrlName.text = izin!.users!.name ?? '';
     state.ctrlDivision.text = "IT";
-    state.ctrlEndDate.text = convertDateFormat(izin.endDate) ?? "";
-    state.ctrlStartDate.text = convertDateFormat(izin.startDate)?? "";
+    state.ctrlEndDate.text = convertDateFormat(izin.endDate);
+    state.ctrlStartDate.text = convertDateFormat(izin.startDate);
     state.ctrlStartTime.text = izin.startTime ?? "";
-    // state.ctrlName.clear();
-    // state.ctrlStartDate.clear();
-    // state.ctrlEndDate.clear();
     state.ctrlEndTime.clear();
     state.ctrlReason.clear();
     state.ctrlDescription.clear();
@@ -461,7 +353,7 @@ class IzinCubit extends Cubit<IzinState> {
             body: null,
             token: token,
             method: 'get');
-        var result = json.decode(response!.body);
+        json.decode(response!.body);
         if (response.statusCode == 200) {
           await initIzinData(
               context); // Call initIzinData to update izinAll data
@@ -500,7 +392,7 @@ class IzinCubit extends Cubit<IzinState> {
             body: null,
             token: token,
             method: 'get');
-        var result = json.decode(response!.body);
+        json.decode(response!.body);
 
         if (response.statusCode == 200) {
           await initSubmissionData(
@@ -758,6 +650,7 @@ class IzinCubit extends Cubit<IzinState> {
     String? user = await Helper().getDataUser();
     final Map<String, dynamic> userMap = jsonDecode(user!);
     emit(state.copyWith(userRole: userMap['role']));
+    return null;
   }
 
   Future<void> initSubmissionData(BuildContext context) async {
@@ -1072,7 +965,7 @@ class IzinCubit extends Cubit<IzinState> {
             body: null,
             token: token,
             method: 'get');
-        var result = json.decode(response!.body);
+        json.decode(response!.body);
         if (response.statusCode == 200) {
           await initUsetIzinData(
               context); // Call initIzinData to update izinAll data

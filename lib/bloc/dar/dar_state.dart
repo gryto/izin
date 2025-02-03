@@ -1,6 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-
 import '../../model/menuDar.dart';
 import '../../model/task.dart';
 import '../../model/user.dart';
@@ -16,8 +14,6 @@ class DarState extends Equatable {
   final List<MenuDar> listMenu;
   final String currentScreen;
   final int indexMenu;
-
-  // TaskState({required this.tasks, this.warningMessage = ''});
 
   DarState(
       {User? user,

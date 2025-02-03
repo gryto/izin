@@ -70,24 +70,9 @@ class _DetailSubmissionRowState extends State<DetailSubmissionRow> {
       'Lain-lain'
     ];
 
-    // Set the title based on the actionMode
-    String title = '';
-
-    // switch (widget.actionMode) {
-    //   case ActionMode.add:
-    //     title = 'Tambah Pengajuan Izin';
-    //     break;
-    //   case ActionMode.edit:
-    //     title = 'Edit Pengajuan Izin';
-    //     break;
-    //   case ActionMode.view:
-    //     title = 'Detail Pengajuan Izin';
-    //     break;
-    // }
-
     return Scaffold(
       appBar: AppBar(
-        title: Text("Pengajuan Izin"),
+        title: const Text("Pengajuan Izin"),
       ),
       body: BlocConsumer<IzinCubit, IzinState>(listener: (context, state) {
         if (state.message.isNotEmpty &&
@@ -449,7 +434,6 @@ class _DetailSubmissionRowState extends State<DetailSubmissionRow> {
                                               "Apakah anda yakin ingin approve data ???",
                                           btnCancelOnPress: () {},
                                           btnOkOnPress: () async {
-                                            // profileCubit.refreshData(context);
                                             izinCubit.initUpdateSubmissionData(
                                                 context,
                                                 widget.izin,

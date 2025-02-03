@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import '../../model/dashboardIzin.dart';
 import '../../model/izinAll.dart';
@@ -240,7 +239,7 @@ class IzinState {
       searchResults: searchResults ?? this.searchResults,
       selectedUsername: selectedUsername ?? this.selectedUsername,
       selectedName: selectedName ?? this.selectedName,
-      backgroundColors: backgroundColors ?? this.backgroundColors,
+      backgroundColors: backgroundColors,
       selectedIds: selectedIds ?? this.selectedIds,
       isSelected: isSelected ?? this.isSelected,
       message: message ?? this.message,
@@ -250,7 +249,6 @@ class IzinState {
     );
   }
 
-  @override
   List<Object> get props => [
         user,
         task,

@@ -66,8 +66,8 @@ class Group {
 class TugasLuarKantor {
   int? id;
   int? employeeId;
-  Null? superadminId;
-  Null? adminId;
+  int? superadminId;
+  int? adminId;
   String? reason;
   String? description;
   String? startDate;
@@ -82,7 +82,7 @@ class TugasLuarKantor {
   String? checkedByAdmin;
   String? checkedBySuperadmin;
   String? createdAt;
-  Null? updatedAt;
+  String? updatedAt;
   String? superadminUsername;
   String? adminUsername;
   String? username;
@@ -171,8 +171,8 @@ class TugasLuarKantor {
 class Sakit {
   int? id;
   int? employeeId;
-  Null? superadminId;
-  Null? adminId;
+  int? superadminId;
+  int? adminId;
   String? reason;
   String? description;
   String? startDate;
@@ -184,12 +184,12 @@ class Sakit {
   String? statusSuperadmin;
   int? readByAdmin;
   int? readBySuperadmin;
-  Null? checkedByAdmin;
+  String? checkedByAdmin;
   String? checkedBySuperadmin;
   String? createdAt;
-  Null? updatedAt;
+  String? updatedAt;
   String? superadminUsername;
-  Null? adminUsername;
+  String? adminUsername;
   String? username;
   String? name;
 

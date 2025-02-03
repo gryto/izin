@@ -1,7 +1,6 @@
 import 'package:bounce/bounce.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
-
 import '../../utils/constants/colors.dart';
 
 class UserCard extends StatelessWidget {
@@ -77,7 +76,7 @@ class UserCard extends StatelessWidget {
                     badgeContent: SizedBox(
                       width: 90, // Atur lebar badge sesuai kebutuhan
                       child: Text(
-                        progress! ?? "",
+                        progress!,
                         maxLines: 2, // Maksimum 2 baris
                         overflow: TextOverflow
                             .ellipsis, // Tambahkan '...' jika terlalu panjang

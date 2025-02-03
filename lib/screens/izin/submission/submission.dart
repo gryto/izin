@@ -10,7 +10,6 @@ import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/constantStyle.dart';
 import '../../components/activity_card.dart';
 import '../activity/donlodActivity.dart';
-import 'detailSubmission.dart';
 
 class SubmissionPage extends StatefulWidget {
   const SubmissionPage({super.key});
@@ -24,18 +23,11 @@ class _SubmissionPageState extends State<SubmissionPage> {
   @override
   void initState() {
     super.initState();
-    // Panggil initData saat widget pertama kali diinisialisasi
-    // profileCubit = BlocProvider.of<ProfileCubit>(context); // untuk
     print("Initializing Submission IzinCubit");
     izinCubit = context.read<IzinCubit>();
     izinCubit.initSubmissionData(context);
     izinCubit.getUserRole();
   }
-
-  // bool isProcess = true;
-  // List listData = [];
-
-  // final fieldKeyword = TextEditingController();
   final List<FocusNode> _focusNodes = [
     FocusNode(),
   ];
@@ -95,9 +87,9 @@ class _SubmissionPageState extends State<SubmissionPage> {
                             var statusDone = (izin.status == "2" &&
                                 izin.statusAdmin == "2" &&
                                 izin.statusSuperadmin == "2");
-                            var statusCanceled = (izin.status == "3" &&
-                                izin.statusAdmin == "2" &&
-                                izin.statusSuperadmin == "2");
+                            // var statusCanceled = (izin.status == "3" &&
+                            //     izin.statusAdmin == "2" &&
+                            //     izin.statusSuperadmin == "2");
 
                             String convertDateFormat(String? date) {
                               // Parse the input date string (dd/MM/yyyy)
@@ -165,29 +157,6 @@ class _SubmissionPageState extends State<SubmissionPage> {
                                       context.go(
                                           "/${Routes.MAINPAGE}/${Routes.IZIN}/${Routes.SUBMISSIONIZIN}/detail",
                                           extra: izin);
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) =>
-                                      //         DetailSubmission(
-                                      //             status: subtitel,
-                                      //             actionMode: ActionMode.view,
-                                      //             id: izin.id.toString(),
-                                      //             name: izin.users!.name,
-                                      //             startDate: izin.startDate,
-                                      //             endDate: izin.endDate,
-                                      //             startTime: izin.startTime,
-                                      //             endTime: izin.endTime,
-                                      //             reason: izin.reason,
-                                      //             description: izin.description,
-                                      //             read: izin.readByAdmin
-                                      //                 .toString(),
-                                      //             readSuperadmin: izin
-                                      //                 .readBySuperadmin
-                                      //                 .toString(),
-                                      //             role: roleDisplay.toString()),
-                                      //   ),
-                                      // );
                                     } else {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
@@ -250,197 +219,6 @@ class _SubmissionPageState extends State<SubmissionPage> {
                         )
                       ],
                     ),
-              // state.submissionAll.isNotEmpty
-              //     ? Expanded(
-              //         child: ListView.builder(
-              //           itemCount: state.submissionAll.length,
-              //           itemBuilder: (
-              //             context,
-              //             index,
-              //           ) {
-              //             final izin = state.submissionAll[index];
-              //             // final user = state.userIzinList[index];
-              //             String roleDisplay =
-              //                 state.userRole; // Role yang digunakan
-              //             print("roledisplay");
-              //             print(roleDisplay);
-
-              //             print("Rendering izin: $izin");
-              //             // print("Rendering user: $user");
-
-              //             print("print izin submission list di listbuilder");
-              //             print(izin);
-              //             var statusPending = (izin.status == "1" &&
-              //                 izin.statusAdmin == "1" &&
-              //                 izin.statusSuperadmin == "1");
-              //             var statusSuperAdmin = (izin.status == "1" &&
-              //                 izin.statusAdmin == "1" &&
-              //                 izin.statusSuperadmin == "2");
-              //             var statusAdmin = (izin.status == "1" &&
-              //                 izin.statusAdmin == "2" &&
-              //                 izin.statusSuperadmin == "1");
-              //             var statusDone = (izin.status == "2" &&
-              //                 izin.statusAdmin == "2" &&
-              //                 izin.statusSuperadmin == "2");
-              //             var statusCanceled = (izin.status == "3" &&
-              //                 izin.statusAdmin == "2" &&
-              //                 izin.statusSuperadmin == "2");
-
-              //             String convertDateFormat(String? date) {
-              //               // Parse the input date string (dd/MM/yyyy)
-              //               DateTime parsedDate =
-              //                   DateFormat('yyyy-MM-dd').parse(date!);
-
-              //               // Format the DateTime object into the new format (yyyy-MM-dd)
-              //               String formattedDate =
-              //                   DateFormat('dd/MM/yyyy').format(parsedDate);
-
-              //               return formattedDate;
-              //             }
-
-              //             String status = statusPending
-              //                 ? "Pending"
-              //                 : statusSuperAdmin
-              //                     ? "Approved"
-              //                     : statusAdmin
-              //                         ? "Approved"
-              //                         : statusDone
-              //                             ? "Approved"
-              //                             : "Canceled";
-
-              //             String subtitel = statusPending
-              //                 ? "Pending"
-              //                 : statusSuperAdmin
-              //                     ? "Checked by SuperAdmin"
-              //                     : statusAdmin
-              //                         ? "Wait Superadmin"
-              //                         : statusDone
-              //                             ? "Done"
-              //                             : "Canceled";
-
-              //             return Padding(
-              //               padding: const EdgeInsets.only(
-              //                   left: 15, right: 15, top: 5, bottom: 5),
-              //               child: ActivityCard(
-              //                 icon: Icons.abc,
-              //                 title: izin.users?.name,
-              //                 subtitle: subtitel,
-              //                 color: Colors.blueAccent,
-              //                 colorbg: Colors.white,
-              //                 colorTitle: Colors.black,
-              //                 onClick: () {
-              //                   // context
-              //                   //     .read<IzinCubit>()
-              //                   //     .clickMenu(izin.status, context);
-              //                 },
-              //                 date: convertDateFormat(izin.startDate),
-              //                 progress: status,
-              //                 reason: izin.reason,
-              //                 popupMenuButton: PopupMenuButton(
-              //                   surfaceTintColor: Colors.white,
-              //                   color: Colors.white,
-              //                   offset: const Offset(
-              //                       -20, 35), // SET THE (X,Y) POSITION
-              //                   icon: const Icon(
-              //                     Icons.more_vert,
-              //                     color: Colors.grey,
-              //                   ),
-              //                   shape: RoundedRectangleBorder(
-              //                     borderRadius: BorderRadius.circular(10),
-              //                   ),
-              //                   onSelected: (value) {
-              //                     if (value == 'Detail') {
-              //                       //  context.go(
-              //                       //       "/${Routes.MAINPAGE}/${Routes.IZIN}/${Routes.ADDEDIZIN}",
-              //                       //       extra: item);
-              //                       Navigator.push(
-              //                         context,
-              //                         MaterialPageRoute(
-              //                           builder: (context) => DetailSubmission(
-              //                               status: subtitel,
-              //                               actionMode: ActionMode.view,
-              //                               id: izin.id.toString(),
-              //                               name: izin.users!.name,
-              //                               startDate: izin.startDate,
-              //                               endDate: izin.endDate,
-              //                               startTime: izin.startTime,
-              //                               endTime: izin.endTime,
-              //                               reason: izin.reason,
-              //                               description: izin.description,
-              //                               read: izin.readByAdmin.toString(),
-              //                               readSuperadmin: izin
-              //                                   .readBySuperadmin
-              //                                   .toString(),
-              //                               role: roleDisplay.toString()),
-              //                         ),
-              //                       );
-              //                     } else {
-              //                       Navigator.of(context).push(
-              //                         MaterialPageRoute(
-              //                           builder: (context) => DownloadPage(
-              //                             name: "${izin.users?.name}.pdf",
-              //                             path:
-              //                                 "https://izin.hanatekindo.com/pdf-izin/${izin.id}",
-              //                           ),
-              //                         ),
-              //                       );
-              //                     }
-              //                   },
-              //                   itemBuilder: (context) {
-              //                     return [
-              //                       const PopupMenuItem(
-              //                         value: 'Detail',
-              //                         child: Row(
-              //                           children: [
-              //                             Icon(
-              //                               Icons.remove_red_eye,
-              //                               // color: Color.fromARGB(
-              //                               //     255, 67, 128, 252),
-              //                             ),
-              //                             Text(
-              //                               ' Detail',
-              //                               // style: TextStyle(
-              //                               //   color: Color.fromARGB(
-              //                               //       255, 67, 128, 252),
-              //                               // ),
-              //                             ),
-              //                           ],
-              //                         ),
-              //                       ),
-              //                       const PopupMenuItem(
-              //                         value: 'pdf',
-              //                         child: Row(
-              //                           children: [
-              //                             Icon(
-              //                               Icons.picture_as_pdf,
-              //                             ),
-              //                             Text(
-              //                               ' PDF',
-              //                             ),
-              //                           ],
-              //                         ),
-              //                       ),
-              //                     ];
-              //                   },
-              //                 ),
-              //               ),
-              //             );
-              //           },
-              //         ),
-              //       )
-              //     : Column(
-              //         children: [
-              //           Image.asset("assets/images/no_task.jpg"),
-              //           const Padding(
-              //             padding: EdgeInsets.all(8.0),
-              //             child: Text(
-              //               'Anda belum memiliki tugas, hubungi atasan anda untuk assign task',
-              //               style: TextStyle(fontSize: 16),
-              //               textAlign: TextAlign.center,
-              //             ),
-              //           )
-              //         ],
-              //       ),
             ],
           );
         },

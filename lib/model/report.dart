@@ -1,8 +1,8 @@
 class Report {
   int? id;
   int? employeeId;
-  Null? superadminId;
-  Null? adminId;
+  int? superadminId;
+  int? adminId;
   String? reason;
   String? description;
   String? startDate;
@@ -17,7 +17,7 @@ class Report {
   String? checkedByAdmin;
   String? checkedBySuperadmin;
   String? createdAt;
-  Null? updatedAt;
+  String? updatedAt;
   String? superadminUsername;
   String? adminUsername;
   String? username;
@@ -112,15 +112,15 @@ class Users {
   String? email;
   String? name;
   String? role;
-  Null? phone;
+  String? phone;
   String? hireDate;
-  Null? emailVerifiedAt;
-  Null? rememberToken;
+  String? emailVerifiedAt;
+  String? rememberToken;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  String? deletedAt;
   String? taskType;
-  Null? keterangan;
+  String? keterangan;
   String? signature;
   String? jabatan;
   int? loginAtk;
