@@ -100,25 +100,9 @@ class IzinCubit extends Cubit<IzinState> {
             method: 'get');
         var result = json.decode(response!.body);
 
-        print("Data dari result['data']: ${result['data']}");
-
-        print("data dashboard");
-
-        print(result);
-        print(response.statusCode);
-
         if (response.statusCode == 200) {
-          print("stlh 200");
           var dashboardIzin = DashboardIzinAll.fromJson(result['data']);
-          print("stlh 200");
-          print(dashboardIzin);
-          // print(DashboardIzinAll.fromJson(result['data']));
-
-          // DashboardIzinAll.fromJson(result['data']);
-          // print("didalam");
-
-          // print(DashboardIzinAll.fromJson(result['data']));
-
+        
           emit(
             state.copyWith(
               dashboardIzin: dashboardIzin,
