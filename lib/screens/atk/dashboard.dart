@@ -1,145 +1,123 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../bloc/izin/izin_cubit.dart';
-import '../../bloc/izin/izin_state.dart';
+import '../../bloc/atk/atk_cubit.dart';
+import '../../bloc/atk/atk_state.dart';
 
-class AtkIzin extends StatefulWidget {
-  const AtkIzin({super.key});
+class DashboardAtk extends StatefulWidget {
+  const DashboardAtk({super.key});
 
   @override
-  State<AtkIzin> createState() => _AtkIzinState();
+  State<DashboardAtk> createState() => _DashboardAtkState();
 }
 
-class _AtkIzinState extends State<AtkIzin> {
-  late IzinCubit izinCubit;
+class _DashboardAtkState extends State<DashboardAtk> {
+  late AtkCubit atkCubit;
+
   @override
   void initState() {
     super.initState();
-    // Panggil initData saat widget pertama kali diinisialisasi
-    // profileCubit = BlocProvider.of<ProfileCubit>(context); // untuk
-    izinCubit = context.read<IzinCubit>();
-    izinCubit.initData(context);
+    atkCubit = context.read<AtkCubit>();
+    atkCubit.initData(context);
+    print("stlh initdata");
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocConsumer<IzinCubit, IzinState>(
-          listener: (BuildContext context, IzinState state) {},
-          builder: (context, state) {
-            return Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    // Bagian Card di bawah
-                    Card(
-                      color: const Color.fromARGB(255, 61, 131, 248),
+  return Scaffold(
+    body: BlocConsumer<AtkCubit, AtkState>(
+      listener: (BuildContext context, AtkState state) {},
+      builder: (context, state) {
+          var dashboardAtkRequest = state.dashboardAtkRequest;  // DashboardAtkAll object
+
+         
+          var dataList = [
+            {
+              'title': 'Total Request',
+              'count': dashboardAtkRequest!.total,  // Mengakses properti langsung
+              'icon': Icons.account_box,
+              'color': Color.fromARGB(255, 114, 61, 248)
+            },
+            {
+              'title': 'Done',
+              'count': dashboardAtkRequest.done,  // Mengakses properti langsung
+              'icon': Icons.list_outlined,
+              'color': Color.fromARGB(255, 61, 131, 248)
+            },
+            {
+              'title': 'Approved',
+              'count': dashboardAtkRequest.approved,  // Mengakses properti langsung
+              'icon': Icons.done_all_outlined,
+              'color': Color.fromARGB(255, 12, 159, 111)
+            },
+            {
+              'title': 'Pending',
+              'count': dashboardAtkRequest.pending,  // Mengakses properti langsung
+              'icon': Icons.pause_circle_outline,
+              'color': Color.fromARGB(255, 240, 205, 78)
+            },
+            {
+              'title': 'Rejected',
+              'count': dashboardAtkRequest.rejected,  // Mengakses properti langsung
+              'icon': Icons.cancel_outlined,
+              'color': Color.fromARGB(255, 240, 81, 82)
+            },
+          ];
+
+          return Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: SingleChildScrollView(
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: dataList.length,
+                itemBuilder: (context, index) {
+                  var item = dataList[index];
+
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0),
+                    child: Card(
+                      color: item['color'] as Color,
                       child: Padding(
                         padding: const EdgeInsets.all(25),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Icon(
-                              Icons.list,
+                            Icon(
+                              item['icon'] as IconData?,
                               color: Colors.white60,
                               size: 50,
                             ),
-                            Column(children: [
-                              Text(
-                                state.dashboardIzin.allIzin != null
-                                    ? state.dashboardIzin.allIzin.toString()
-                                    : "0",
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  item['count'].toString(),  // Menggunakan count
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              const Text(
-                                "Izin Disetujui",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ]),
+                                Text(
+                                  item['title'] as String,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Card(
-                      color: const Color.fromARGB(255, 12, 159, 111),
-                      child: Padding(
-                        padding: const EdgeInsets.all(25),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Icon(
-                              Icons.approval,
-                              color: Colors.white60,
-                              size: 50,
-                            ),
-                            Column(children: [
-                              Text(
-                                state.dashboardIzin.approveIzin != null
-                                    ? state.dashboardIzin.approveIzin.toString()
-                                    : "0",
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const Text(
-                                "Izin Ditolak",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ]),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Card(
-                      color: const Color.fromARGB(255, 240, 81, 82),
-                      child: Padding(
-                        padding: const EdgeInsets.all(25),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Icon(
-                              Icons.cancel_outlined,
-                              color: Colors.white60,
-                              size: 50,
-                            ),
-                            Column(children: [
-                              Text(
-                                state.dashboardIzin.failedIzin != null
-                                    ? state.dashboardIzin.failedIzin.toString()
-                                    : "0",
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const Text(
-                                "Semua Izin",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ]),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
-            );
-          }),
-    );
-  }
+            ),
+          );
+        // } else {
+        //   return Center(child: CircularProgressIndicator());
+        // }
+      },
+    ),
+  );
+}
 }

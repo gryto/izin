@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../bloc/izin/izin_cubit.dart';
-import '../../bloc/izin/izin_state.dart';
+import '../../bloc/atk/atk_cubit.dart';
+import '../../bloc/atk/atk_state.dart';
 import '../../utils/constants/colors.dart';
 
 class AtkScreen extends StatefulWidget {
@@ -13,21 +12,20 @@ class AtkScreen extends StatefulWidget {
 }
 
 class _AtkScreenState extends State<AtkScreen> {
-  late IzinCubit izinCubit;
+  late AtkCubit atkCubit;
   @override
   void initState() {
     super.initState();
-    // Panggil initData saat widget pertama kali diinisialisasi
-    // profileCubit = BlocProvider.of<ProfileCubit>(context); // untuk
-    izinCubit = context.read<IzinCubit>();
-    izinCubit.initMenu();
-    izinCubit.navigateTo('Dashboard', 0);
+    atkCubit = context.read<AtkCubit>();
+    atkCubit.initMenu();
+    atkCubit.navigateTo('Dashboard', 0);
+    print("dashboard");
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: BlocBuilder<IzinCubit, IzinState>(builder: (context, state) {
+      child: BlocBuilder<AtkCubit, AtkState>(builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
             title: Text(state.currentScreen),
@@ -58,7 +56,7 @@ class _AtkScreenState extends State<AtkScreen> {
                       title: Text(menu.title ?? ''),
                       onTap: () {
                         context
-                            .read<IzinCubit>()
+                            .read<AtkCubit>()
                             .navigateTo(menu.title ?? '', index);
                         Navigator.pop(context);
                         print(menu.title);

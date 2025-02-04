@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'bloc/atk/atk_cubit.dart';
 import 'bloc/dar/dar_cubit.dart';
 import 'bloc/izin/izin_cubit.dart';
 import 'bloc/profile/profile_cubit.dart';
@@ -33,6 +34,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => IzinCubit(),
+        ),
+         BlocProvider(
+          create: (context) => AtkCubit(),
         ),
         // BlocProvider(
         //   create: (_) => DarCubit()

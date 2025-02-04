@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../bloc/izin/izin_cubit.dart';
 import '../../bloc/izin/izin_state.dart';
 import '../../utils/constants/colors.dart';

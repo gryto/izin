@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../router/app_routes.dart';
 import '../../screens/components/showDialog.dart';
 import 'dashboard_state.dart';
@@ -26,6 +25,9 @@ class DashboardCubit extends Cubit<DashboardState> {
         break;
       case 'Form Izin':
         context.go("/${Routes.MAINPAGE}/${Routes.IZIN}");
+        break;
+      case 'ATK Permintaan':
+        context.go("/${Routes.MAINPAGE}/${Routes.ATK}");
         break;
       default:
         cShowDialog(

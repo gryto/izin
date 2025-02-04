@@ -77,7 +77,7 @@ class _DashboardIzinState extends State<DashboardIzin> {
                               size: 50,
                             ),
                             Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
                                   item['count'].toString(),  // Menggunakan count

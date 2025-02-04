@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../model/izinAll.dart';
 import '../model/submissionAll.dart';
 import '../model/user.dart';
+import '../screens/atk/atk_screen.dart';
 import '../screens/dar/dar_screen.dart';
 import '../screens/izin/activity/detailActivitySecond.dart';
 import '../screens/izin/activity/donlodActivity.dart';
@@ -111,6 +112,10 @@ GoRouter router(String initialLocation) {
                     },
                   ),
                 ],
+              ),
+              GoRoute(
+                path: Routes.ATK,
+                builder: (context, state) => const AtkScreen(),
               ),
             ],
           ),

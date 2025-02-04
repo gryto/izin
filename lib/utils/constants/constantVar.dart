@@ -21,4 +21,5 @@ class PathUrl {
   static const updateSubmission = '/izin/update-izin-saya';
   static const reportAll = '/izin/laporan/';
   static const addUser = '/izin/register';
+  static const atkPermintaanDashboard = '/atk-permintaan/dashboard';
 }
