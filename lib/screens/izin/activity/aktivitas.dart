@@ -21,14 +21,12 @@ class AktivitasIzin extends StatefulWidget {
 class _AktivitasIzinState extends State<AktivitasIzin> {
   late IzinCubit izinCubit;
   @override
-
   void initState() {
     super.initState();
     print("Initializing Submission IzinCubit");
     izinCubit = context.read<IzinCubit>();
     izinCubit.initIzinData(context);
     izinCubit.getUserRole();
-     
   }
 
   bool isProcess = true;
@@ -234,7 +232,6 @@ class _AktivitasIzinState extends State<AktivitasIzin> {
                         ],
                       ),
                     )
-                
                   : Column(
                       children: [
                         Image.asset("assets/images/no_task.jpg"),
@@ -252,126 +249,123 @@ class _AktivitasIzinState extends State<AktivitasIzin> {
           );
         },
       ),
-      floatingActionButton:
-          BlocBuilder<IzinCubit, IzinState>(builder: (context, state) {
-        return 
-            
-            FloatingActionButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(20),
-                    ),
+      floatingActionButton: BlocBuilder<IzinCubit, IzinState>(
+        builder: (context, state) {
+          return FloatingActionButton(
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20),
                   ),
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  builder: (
-                    BuildContext context,
-                  ) {
-                    return BottomSheet(
-                      enableDrag: false,
-                      onClosing: () {},
-                      builder: (BuildContext context) {
-                        return StatefulBuilder(
-                          builder: (BuildContext context, setState) => SafeArea(
-                            child: Container(
-                              padding: const EdgeInsets.all(5),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          width: 50,
-                                          height: 5,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey,
-                                            borderRadius:
-                                                BorderRadiusDirectional
-                                                    .circular(10),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        const Text(
-                                          'Pencarian',
-                                          style: TextStyle(
-                                              color: ColorApp.basic,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        const Divider(
-                                          thickness: 2,
-                                          color: ColorApp.basic,
-                                        ),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        DropdownButtonFormField(
+                ),
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                builder: (
+                  BuildContext context,
+                ) {
+                  return BottomSheet(
+                    enableDrag: false,
+                    onClosing: () {},
+                    builder: (BuildContext context) {
+                      return StatefulBuilder(
+                        builder: (BuildContext context, setState) => SafeArea(
+                          child: Container(
+                            padding: const EdgeInsets.all(5),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: 50,
+                                        height: 5,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey,
                                           borderRadius:
-                                              BorderRadius.circular(10),
-                                          focusNode: _focusNodes[0],
-                                          decoration: ConstantStyle
-                                              .inputDecorationDefault(
-                                                  "Pilih Status"),
-                                          items: state.listDataIzin.map(
-                                            (String item) {
-                                              return DropdownMenuItem<String>(
-                                                value: item,
-                                                child: Text(item),
-                                              );
-                                            },
-                                          ).toList(),
-                                          onChanged: (String? newValue) {
-                                            state.selectedValue = newValue!;
-                                          },
+                                              BorderRadiusDirectional.circular(
+                                                  10),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 10.0,
-                                  ),
-                                  Container(
-                                    alignment: Alignment.centerRight,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: ColorApp.button,
                                       ),
-                                      child: const Text(
-                                        'Cari',
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      const Text(
+                                        'Pencarian',
                                         style: TextStyle(
-                                            color: Colors.white, fontSize: 14),
+                                            color: ColorApp.basic,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                      onPressed: () {
-                                        Navigator.pop(
-                                            context); // Tutup BottomSheet
-                                        izinCubit.selectStatus(
-                                            state.selectedValue, context);
-                                      },
-                                    ),
+                                      const Divider(
+                                        thickness: 2,
+                                        color: ColorApp.basic,
+                                      ),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      DropdownButtonFormField(
+                                        borderRadius: BorderRadius.circular(10),
+                                        focusNode: _focusNodes[0],
+                                        decoration: ConstantStyle
+                                            .inputDecorationDefault(
+                                                "Pilih Status"),
+                                        items: state.listDataIzin.map(
+                                          (String item) {
+                                            return DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Text(item),
+                                            );
+                                          },
+                                        ).toList(),
+                                        onChanged: (String? newValue) {
+                                          state.selectedValue = newValue!;
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                                const SizedBox(
+                                  height: 10.0,
+                                ),
+                                Container(
+                                  alignment: Alignment.centerRight,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: ColorApp.button,
+                                    ),
+                                    child: const Text(
+                                      'Cari',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 14),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(
+                                          context); // Tutup BottomSheet
+                                      izinCubit.selectStatus(
+                                          state.selectedValue, context);
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        );
-                      },
-                    );
-                  },
-                );
-              },
-              backgroundColor: const Color.fromARGB(255, 67, 128, 252),
-              child: const Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
-            );
-        
-      }),
+                        ),
+                      );
+                    },
+                  );
+                },
+              );
+            },
+            backgroundColor: const Color.fromARGB(255, 67, 128, 252),
+            child: const Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+          );
+        },
+      ),
     );
   }
 }

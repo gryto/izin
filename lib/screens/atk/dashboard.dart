@@ -23,41 +23,46 @@ class _DashboardAtkState extends State<DashboardAtk> {
 
   @override
   Widget build(BuildContext context) {
-  return Scaffold(
-    body: BlocConsumer<AtkCubit, AtkState>(
-      listener: (BuildContext context, AtkState state) {},
-      builder: (context, state) {
-          var dashboardAtkRequest = state.dashboardAtkRequest;  // DashboardAtkAll object
+    return Scaffold(
+      body: BlocConsumer<AtkCubit, AtkState>(
+        listener: (BuildContext context, AtkState state) {},
+        builder: (context, state) {
+          var dashboardAtkRequest =
+              state.dashboardAtkRequest; // DashboardAtkAll object
 
-         
           var dataList = [
             {
               'title': 'Total Request',
-              'count': dashboardAtkRequest!.total,  // Mengakses properti langsung
+              'count': dashboardAtkRequest!.total ??
+                  "0", // Mengakses properti langsung
               'icon': Icons.account_box,
               'color': Color.fromARGB(255, 114, 61, 248)
             },
             {
               'title': 'Done',
-              'count': dashboardAtkRequest.done,  // Mengakses properti langsung
+              'count': dashboardAtkRequest.done ??
+                  "0", // Mengakses properti langsung
               'icon': Icons.list_outlined,
               'color': Color.fromARGB(255, 61, 131, 248)
             },
             {
               'title': 'Approved',
-              'count': dashboardAtkRequest.approved,  // Mengakses properti langsung
+              'count': dashboardAtkRequest.approved ??
+                  "0", // Mengakses properti langsung
               'icon': Icons.done_all_outlined,
               'color': Color.fromARGB(255, 12, 159, 111)
             },
             {
               'title': 'Pending',
-              'count': dashboardAtkRequest.pending,  // Mengakses properti langsung
+              'count': dashboardAtkRequest.pending ??
+                  "0", // Mengakses properti langsung
               'icon': Icons.pause_circle_outline,
               'color': Color.fromARGB(255, 240, 205, 78)
             },
             {
               'title': 'Rejected',
-              'count': dashboardAtkRequest.rejected,  // Mengakses properti langsung
+              'count': dashboardAtkRequest.rejected ??
+                  "0", // Mengakses properti langsung
               'icon': Icons.cancel_outlined,
               'color': Color.fromARGB(255, 240, 81, 82)
             },
@@ -91,7 +96,7 @@ class _DashboardAtkState extends State<DashboardAtk> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  item['count'].toString(),  // Menggunakan count
+                                  item['count'].toString(), // Menggunakan count
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 24,
@@ -113,11 +118,11 @@ class _DashboardAtkState extends State<DashboardAtk> {
               ),
             ),
           );
-        // } else {
-        //   return Center(child: CircularProgressIndicator());
-        // }
-      },
-    ),
-  );
-}
+          // } else {
+          //   return Center(child: CircularProgressIndicator());
+          // }
+        },
+      ),
+    );
+  }
 }

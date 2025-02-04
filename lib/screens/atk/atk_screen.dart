@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/atk/atk_cubit.dart';
 import '../../bloc/atk/atk_state.dart';
 import '../../utils/constants/colors.dart';
+import 'package:badges/badges.dart' as badges;
 
 class AtkScreen extends StatefulWidget {
   const AtkScreen({super.key});
@@ -28,7 +29,42 @@ class _AtkScreenState extends State<AtkScreen> {
       child: BlocBuilder<AtkCubit, AtkState>(builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(state.currentScreen),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(state.currentScreen),
+                if (state.currentScreen == "Etalase")
+                  const Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Icon(Icons.shopping_cart,
+                          size: 30), // Ikon Keranjang
+
+                      Positioned(
+                        right: -2, // Sesuaikan posisi badge
+                        top: -12, // Sesuaikan posisi badge
+                        child: badges.Badge(
+                          badgeStyle: badges.BadgeStyle(
+                            shape:
+                                badges.BadgeShape.circle, // Membuat badge bulat
+                            badgeColor:
+                                Colors.blueAccent, // Warna latar belakang badge
+                            padding: EdgeInsets.all(6), // Ukuran badge
+                          ),
+                          badgeContent: Text(
+                            "0",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+              ],
+            ),
           ),
           drawer: Drawer(
             child: ListView(
@@ -67,7 +103,9 @@ class _AtkScreenState extends State<AtkScreen> {
               ],
             ),
           ),
-          body: state.listMenu.isEmpty ? Container() : state.listMenu[state.indexMenu].screen,
+          body: state.listMenu.isEmpty
+              ? Container()
+              : state.listMenu[state.indexMenu].screen,
         );
       }),
     );

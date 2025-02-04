@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hma2/screens/atk/dashboard.dart';
 import '../../model/dashboardAtk.dart';
+import '../../model/etalaseAtk.dart';
 import '../../model/menuIzin.dart';
 import '../../model/user.dart';
+import '../../screens/atk/etalase/etalase.dart';
 import '../../screens/components/showDialog.dart';
 import '../../services/service.dart';
 import '../../utils/constants/constantVar.dart';
@@ -32,6 +34,9 @@ class AtkCubit extends Cubit<AtkState> {
 
         if (response.statusCode == 200) {
           var data = DashboardAtkRequest.fromJson(result['data']);
+          print("data dashboard");
+
+          print(data);
 
           emit(
             state.copyWith(
@@ -68,7 +73,7 @@ class AtkCubit extends Cubit<AtkState> {
       MenuIzin(
           title: "Etalase",
           icon: const Icon(Icons.add_card),
-          screen: const DashboardAtk()),
+          screen: const EtalasePage()),
       MenuIzin(
           title: "Laporan",
           icon: const Icon(Icons.book),
@@ -76,70 +81,69 @@ class AtkCubit extends Cubit<AtkState> {
     ]));
   }
 
-  // Future<void> initMenu() async {
-  //   emit(state.copyWith(currentScreen: 'Dashboard', listMenu: []));
+  Future<void> initDataEtalase(BuildContext context) async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      String? user = await Helper().getDataUser();
+      String? token = await Helper().getToken();
 
-  //   try {
-  //     String? user = await Helper().getDataUser();
-  //     if (user != null) {
-  //       final role = jsonDecode(user)['role'];
+      if (user != null && token != null) {
+        emit(state.copyWith(user: User.fromJson(jsonDecode(user))));
+        var response = await Request.req(
+            path: PathUrl.atkPermintaanEtalase,
+            params: null,
+            body: null,
+            token: token,
+            method: 'get');
+        var result = json.decode(response!.body);
 
-  //       final menuItems = [
-  //         MenuIzin(
-  //           title: "Dashboard",
-  //           icon: const Icon(Icons.dashboard),
-  //           screen: const DashboardAtk(),
-  //         ),
-  //         MenuIzin(
-  //           title: "Request",
-  //           icon: const Icon(Icons.dashboard),
-  //           screen: const DashboardAtk(),
-  //         ),
-  //         MenuIzin(
-  //           title: "Cart",
-  //           icon: const Icon(Icons.dashboard),
-  //           screen: const DashboardAtk(),
-  //         ),
-  //         MenuIzin(
-  //           title: "Etalase",
-  //           icon: const Icon(Icons.dashboard),
-  //           screen: const DashboardAtk(),
-  //         ),
-  //         MenuIzin(
-  //           title: "Laporan",
-  //           icon: const Icon(Icons.dashboard),
-  //           screen: const DashboardAtk(),
-  //         ),
-  //         MenuIzin(
-  //           title: "Request",
-  //           icon: const Icon(Icons.dashboard),
-  //           screen: const DashboardAtk(),
-  //         ),
-  //       ];
+        if (response.statusCode == 200) {
 
-  //       final filteredMenu = menuItems.where((menu) {
-  //         switch (role) {
-  //           case "1":
-  //             return true; // Show all menus
-  //           case "2":
-  //             return menu.title != "Dashboard"; // Hide "User"
-  //           case "3":
-  //             return menu.title != "Dashboard" &&
-  //                 menu.title != "Dashboard"; // Show limited menus
-  //           default:
-  //             return menu.title == "Dashboard" || menu.title == "Dashboard";
-  //         }
-  //       }).toList();
-
-  //       emit(state.copyWith(listMenu: filteredMenu));
-  //     }
-  //   } catch (e) {
-  //     emit(state.copyWith(
-  //         isLoading: false, errorMessage: 'Failed to load menu'));
-  //   }
-  // }
+          var data = (result['data']['barang']['data'] as List)
+              .map((item) => Data2.fromJson(item))
+              .toList()
+              .cast<Data2>();
+          emit(
+            state.copyWith(
+              etalaseAtkRequest: data,
+            ),
+          );
+        } else {
+          cShowDialog(
+              context: context, title: "Warning", message: result['success']);
+        }
+      } else {
+        emit(state.copyWith(isLoading: false, isSuccess: false));
+      }
+    } catch (e) {
+      emit(state.copyWith(
+          isLoading: false, errorMessage: 'Failed to load data'));
+    }
+  }
 
   void navigateTo(String menu, int i) {
     emit(state.copyWith(currentScreen: menu, indexMenu: i));
+  }
+
+   void loadEtalase(List<Data2> items) {
+    emit(state.copyWith(
+      etalaseAtkRequest: items,
+      filteredEtalase: items, // Awalnya semua item ditampilkan
+    ));
+  }
+
+  void filterEtalase(String query) {
+    List<Data2> filteredList = state.etalaseAtkRequest
+        .where((item) =>
+            item!.namaBarang?.toLowerCase().contains(query.toLowerCase()) ??
+            false)
+        .toList();
+
+        print(filteredList);
+
+    emit(state.copyWith(
+      searchQuery: query,
+      filteredEtalase: filteredList,
+    ));
   }
 }
