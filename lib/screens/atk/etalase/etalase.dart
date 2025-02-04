@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../../../bloc/atk/atk_cubit.dart';
 import '../../../bloc/atk/atk_state.dart';
-import '../../../utils/constants/colors.dart';
 import '../../components/etalase_card.dart';
 
 class EtalasePage extends StatefulWidget {

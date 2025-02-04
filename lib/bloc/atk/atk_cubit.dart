@@ -34,9 +34,6 @@ class AtkCubit extends Cubit<AtkState> {
 
         if (response.statusCode == 200) {
           var data = DashboardAtkRequest.fromJson(result['data']);
-          print("data dashboard");
-
-          print(data);
 
           emit(
             state.copyWith(
@@ -135,7 +132,7 @@ class AtkCubit extends Cubit<AtkState> {
   void filterEtalase(String query) {
     List<Data2> filteredList = state.etalaseAtkRequest
         .where((item) =>
-            item!.namaBarang?.toLowerCase().contains(query.toLowerCase()) ??
+            item.namaBarang?.toLowerCase().contains(query.toLowerCase()) ??
             false)
         .toList();
 

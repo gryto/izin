@@ -1,8 +1,5 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:badges/badges.dart' as badges;
-import 'dart:ui' as ui;
 
 class DottedBorderPainter extends CustomPainter {
   final Color color;
