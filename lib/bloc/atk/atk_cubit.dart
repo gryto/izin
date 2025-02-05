@@ -95,7 +95,6 @@ class AtkCubit extends Cubit<AtkState> {
         var result = json.decode(response!.body);
 
         if (response.statusCode == 200) {
-
           var data = (result['data']['barang']['data'] as List)
               .map((item) => Data2.fromJson(item))
               .toList()
@@ -122,7 +121,7 @@ class AtkCubit extends Cubit<AtkState> {
     emit(state.copyWith(currentScreen: menu, indexMenu: i));
   }
 
-   void loadEtalase(List<Data2> items) {
+  void loadEtalase(List<Data2> items) {
     emit(state.copyWith(
       etalaseAtkRequest: items,
       filteredEtalase: items, // Awalnya semua item ditampilkan
@@ -136,11 +135,36 @@ class AtkCubit extends Cubit<AtkState> {
             false)
         .toList();
 
-        print(filteredList);
+    print(filteredList);
 
     emit(state.copyWith(
       searchQuery: query,
       filteredEtalase: filteredList,
     ));
+  }
+
+  void setJumlah(String value) {
+    state.jumlahController.text = value;
+    emit(state.copyWith());
+  }
+
+  void tambahJumlah() {
+    int current = int.tryParse(state.jumlahController.text) ?? 0;
+    state.jumlahController.text = (current + 1).toString();
+    emit(state.copyWith());
+  }
+
+  void kurangJumlah() {
+    int current = int.tryParse(state.jumlahController.text) ?? 0;
+    if (current > 0) {
+      state.jumlahController.text = (current - 1).toString();
+      emit(state.copyWith());
+    }
+  }
+
+  @override
+  Future<void> close() {
+    state.jumlahController.dispose();
+    return super.close();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import '../../model/dashboardAtk.dart';
 import '../../model/etalaseAtk.dart';
 import '../../model/menuIzin.dart';
@@ -17,39 +18,45 @@ class AtkState {
   final String warningMessage;
   final List<Data2?> filteredEtalase;
   final String searchQuery;
+  final int jumlah;
+  final TextEditingController jumlahController;
 
-  AtkState({
-    User? user,
-    this.isLoading = false,
-    this.isSuccess = false,
-    this.errorMessage = '',
-    DashboardAtkRequest? dashboardAtkRequest,
-    this.etalaseAtkRequest = const <Data2>[],
-    this.listMenu = const <MenuIzin>[],
-    this.currentScreen = '',
-    this.indexMenu = 0,
-    this.isUpdateSuccess = false,
-    this.warningMessage = '',
-    this.filteredEtalase = const <Data2>[],
-    this.searchQuery = '',
-  })  : user = user ?? User(),
-        dashboardAtkRequest = dashboardAtkRequest ?? DashboardAtkRequest();
+  AtkState(
+      {User? user,
+      this.isLoading = false,
+      this.isSuccess = false,
+      this.errorMessage = '',
+      DashboardAtkRequest? dashboardAtkRequest,
+      this.etalaseAtkRequest = const <Data2>[],
+      this.listMenu = const <MenuIzin>[],
+      this.currentScreen = '',
+      this.indexMenu = 0,
+      this.isUpdateSuccess = false,
+      this.warningMessage = '',
+      this.filteredEtalase = const <Data2>[],
+      this.searchQuery = '',
+      this.jumlah = 0,
+      TextEditingController? jumlahController})
+      : user = user ?? User(),
+        dashboardAtkRequest = dashboardAtkRequest ?? DashboardAtkRequest(),
+       jumlahController = jumlahController ?? TextEditingController();
 
-  AtkState copyWith({
-    User? user,
-    bool? isLoading,
-    bool? isSuccess,
-    String? errorMessage,
-    DashboardAtkRequest? dashboardAtkRequest,
-    List<Data2>? etalaseAtkRequest,
-    List<MenuIzin>? listMenu,
-    String? currentScreen,
-    int? indexMenu,
-    bool? isUpdateSuccess,
-    String? warningMessage,
-    List<Data2>? filteredEtalase,
-    String? searchQuery,
-  }) {
+  AtkState copyWith(
+      {User? user,
+      bool? isLoading,
+      bool? isSuccess,
+      String? errorMessage,
+      DashboardAtkRequest? dashboardAtkRequest,
+      List<Data2>? etalaseAtkRequest,
+      List<MenuIzin>? listMenu,
+      String? currentScreen,
+      int? indexMenu,
+      bool? isUpdateSuccess,
+      String? warningMessage,
+      List<Data2>? filteredEtalase,
+      String? searchQuery,
+      int? jumlah,
+      TextEditingController? jumlahController}) {
     return AtkState(
       user: user ?? this.user,
       isLoading: isLoading ?? this.isLoading,
@@ -64,6 +71,8 @@ class AtkState {
       warningMessage: warningMessage ?? this.warningMessage,
       filteredEtalase: filteredEtalase ?? this.filteredEtalase,
       searchQuery: searchQuery ?? this.searchQuery,
+      jumlah: jumlah ?? this.jumlah,
+      jumlahController: jumlahController ?? this.jumlahController,
     );
   }
 
@@ -80,5 +89,6 @@ class AtkState {
         warningMessage,
         filteredEtalase,
         searchQuery,
+        jumlah
       ];
 }

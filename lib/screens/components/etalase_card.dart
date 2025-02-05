@@ -9,8 +9,10 @@ class EtalaseCard extends StatelessWidget {
   final Color color;
   final Color colorbg;
   final Color colorTitle;
-  final VoidCallback onClick;
+  // final VoidCallback onClick;
   final ImageProvider image;
+  final String buttonText;
+  final VoidCallback onClickButton;
 
   const EtalaseCard({
     Key? key,
@@ -20,16 +22,20 @@ class EtalaseCard extends StatelessWidget {
     required this.color,
     required this.colorbg,
     required this.colorTitle,
-    required this.onClick,
+    // required this.onClick,
     required this.image,
+    required this.buttonText,
+    required this.onClickButton,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Bounce(
-      duration: const Duration(milliseconds: 130),
-      onTap: onClick,
-      child: Card(
+    return 
+    // Bounce(
+    //   duration: const Duration(milliseconds: 130),
+    //   onTap: onClick,
+    //   child: 
+      Card(
         color: colorbg,
         elevation: 4,
         shape: RoundedRectangleBorder(
@@ -135,46 +141,23 @@ class EtalaseCard extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                               ),
-                              child: const Text(
-                                'Tambah',
-                                style: TextStyle(color: Colors.white),
+                              onPressed: onClickButton,
+                              child:  Text(
+                                buttonText,
+                                style: const TextStyle(color: Colors.white),
                               ),
-                              onPressed: () {
-                                // context.go(
-                                //   "/${Routes.MAINPAGE}/${Routes.IZIN}/${Routes.ADDEDIZIN}/tambah",
-                                //   extra: _selectedIzin,
-                                // );
-                              },
                             ),
                           ],
                         ),
                       ),
                     ),
-
-                    // Padding(
-                    //   padding: const EdgeInsets.all(5),
-                    //   child: SizedBox(
-                    //     width: 150, // Memberikan lebar tetap untuk subtitle
-                    //     child: Text(
-                    //       title!,
-                    //       overflow: TextOverflow.ellipsis,
-                    //       maxLines: 3,
-                    //       style: TextStyle(
-                    //         fontSize: 14,
-                    //         color: colorTitle,
-                    //         fontWeight: FontWeight.w500,
-                    //       ),
-                    //       textAlign: TextAlign.start,
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
               ],
             ),
           ),
         ),
-      ),
-    );
+      );
+    // );
   }
 }

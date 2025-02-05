@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../../../bloc/atk/atk_cubit.dart';
 import '../../../bloc/atk/atk_state.dart';
+import '../../../utils/constants/colors.dart';
+import '../../../utils/constants/constantStyle.dart';
 import '../../components/etalase_card.dart';
 
 class EtalasePage extends StatefulWidget {
@@ -27,7 +29,6 @@ class _EtalasePageState extends State<EtalasePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(title: Icon(Icons.shopping_cart),),
       body: BlocConsumer<AtkCubit, AtkState>(
         listener: (context, state) {
           print("State changed: $state");
@@ -87,8 +88,212 @@ class _EtalasePageState extends State<EtalasePage> {
                               color: Colors.blueAccent,
                               colorbg: Colors.white,
                               colorTitle: Colors.black,
-                              onClick: () {},
                               progress: etalase.jumlah ?? "-",
+                              buttonText: 'Add to Chart',
+                              onClickButton: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "Add to Cart",
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(
+                                              Icons.close), // Ikon silang
+                                          onPressed: () => Navigator.pop(
+                                              context), // Tutup dialog
+                                        ),
+                                      ],
+                                    ),
+                                    content: SingleChildScrollView(
+                                      child: Column(
+                                        // mainAxisSize: MainAxisSize
+                                        //     .min, // Menyesuaikan ukuran dialog
+                                        children: [
+                                          const Divider(
+                                              thickness: 2, color: Colors.black12),
+                                          const SizedBox(height: 5),
+                                          ListTile(
+                                            title: Column(
+                                              children: [
+                                                Text(
+                                                  etalase.namaBarang ?? "-",
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                                 Divider(
+                                                    thickness: 2,
+                                                    color: Colors.grey[300],),
+                                                const SizedBox(height: 2),
+                                              ],
+                                            ),
+                                            subtitle: Column(
+                                              children: [
+                                                const SizedBox(height: 15),
+                                                TextFormField(
+                                                  enabled: true,
+                                                  readOnly: true,
+                                                  keyboardType:
+                                                      TextInputType.text,
+                                                  controller:
+                                                      TextEditingController(
+                                                          text:
+                                                              etalase.jumlah ??
+                                                                  "-"),
+                                                  decoration: InputDecoration(
+                                                    filled: true,
+                                                    fillColor: Colors.grey[300],
+                                                    labelText: "Stok tersedia",
+                                                    labelStyle: const TextStyle(
+                                                      fontSize:
+                                                          16, // Ukuran font label lebih besar
+                                                    ),
+                                                    floatingLabelBehavior:
+                                                        FloatingLabelBehavior
+                                                            .always, // Label selalu di atas
+                                                    border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8), // Melengkung
+                                                      borderSide: BorderSide
+                                                          .none, // Hilangkan outline
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 15),
+                                                Row(
+                                                  children: [
+                                                    // Input Jumlah
+                                                    SizedBox(
+                                                      width: 100, // Lebar input
+                                                      child: TextFormField(
+                                                        controller: state
+                                                            .jumlahController,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .number,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          filled: true,
+                                                          labelText: "Jumlah",
+                                                          fillColor: Colors
+                                                                  .grey[
+                                                              100], // Warna abu muda lebih muda lagi
+                                                          labelStyle: TextStyle(
+                                                              color: Colors
+                                                                      .grey[
+                                                                  700]), // Label warna lebih gelap
+
+                                                          border:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8), // Melengkung
+                                                            borderSide:
+                                                                BorderSide(
+                                                              color: Colors
+                                                                      .grey[
+                                                                  300]!, // Border abu tua
+                                                              width:
+                                                                  1, // Lebar border
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+
+                                                    const SizedBox(
+                                                        width:
+                                                            5), // Jarak kecil
+
+                                                    // Tombol Plus (Biru)
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        context
+                                                            .read<AtkCubit>()
+                                                            .tambahJumlah();
+                                                      },
+                                                      icon: const Icon(
+                                                          Icons.add,
+                                                          color: Colors.white),
+                                                      style:
+                                                          IconButton.styleFrom(
+                                                        backgroundColor: Colors
+                                                            .blue, // Warna biru
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  8), // Melengkung
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    // Tombol Minus (Merah)
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        context
+                                                            .read<AtkCubit>()
+                                                            .kurangJumlah();
+                                                      },
+                                                      icon: const Icon(
+                                                          Icons.remove,
+                                                          color: Colors.white),
+                                                      style:
+                                                          IconButton.styleFrom(
+                                                        backgroundColor: Colors
+                                                            .red, // Warna merah
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  8), // Melengkung
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 20),
+                                                ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        const Color.fromARGB(
+                                                            255, 67, 128, 252),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                  ),
+                                                  onPressed: () {},
+                                                  child: const Text(
+                                                    "Submit",
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
                             );
                           },
                         )
